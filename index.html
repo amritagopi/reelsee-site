@@ -1,3 +1,477 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>REELSEE — творческое пространство</title><meta name="description" content="REELSEE — инструменты обработки видео и звука."><link rel="icon" href="assets/app-icon.png"><style>
-@font-face{font-family:Tektur;src:url('assets/Tektur-Regular.ttf') format('truetype');font-display:swap}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#0d0f13;color:#f5f3ed;font:16px/1.7 Tektur,sans-serif}a{color:inherit}header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 6%;border-bottom:1px solid #232934;background:#0d0f13e8}.brand{display:flex;align-items:center;gap:14px;text-decoration:none}.brand img{width:48px;height:48px}.brand small{display:block;color:#bab2a5;font-size:11px;letter-spacing:.16em}nav a{text-decoration:none;color:#e5a835}.hero{min-height:78vh;display:flex;align-items:center;padding:90px 7%;background:linear-gradient(90deg,#0d0f13f5 5%,#0d0f13b8 55%,#0d0f1322),url('assets/planet-bg.png') center/cover}.intro{max-width:780px}.eyebrow{color:#e5a835;font-size:13px;letter-spacing:.15em}h1{font-size:clamp(34px,5vw,70px);line-height:1.15;font-weight:400;margin:24px 0}h1 span{color:#e5a835}.lead{max-width:620px;color:#bab2a5;font-size:19px}.button{display:inline-block;background:#e5a835;color:#0a0d12;padding:14px 24px;border-radius:24px;text-decoration:none;margin-top:22px}.section{padding:70px 7%;max-width:1500px;margin:auto}h2{font-size:30px;font-weight:400}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.card{padding:28px;background:#13171e;border:1px solid #232934;border-radius:14px}.card small{color:#e5a835}.card h3{font-size:20px;font-weight:400}.card p,footer{color:#bab2a5}.note{border-left:2px solid #e5a835;padding:12px 20px;margin-top:36px;color:#bab2a5}footer{padding:28px 7%;border-top:1px solid #232934;font-size:13px}a:focus-visible{outline:2px solid #e5a835;outline-offset:5px}@media(max-width:800px){.grid{grid-template-columns:1fr}header{flex-wrap:wrap}.hero{padding:65px 7%;min-height:70vh;background-position:65% center}.lead{font-size:17px}}
-</style></head><body><header><a class="brand" href="#"><img src="assets/app-icon.png" alt=""><div>REELSEE<small>ТВОРЧЕСКОЕ ПРОСТРАНСТВО</small></div></a><nav><a href="#tools">Инструменты</a></nav></header><main><section class="hero"><div class="intro"><div class="eyebrow">ВИДЕО · ЗВУК · ТВОРЧЕСТВО</div><h1>Меньше рутины.<br><span>Больше творчества.</span></h1><p class="lead">Работай с видео и звуком в одном пространстве: очищай речь, сокращай паузы, создавай субтитры и улучшай видео.</p><a class="button" href="#tools">Посмотреть инструменты</a></div></section><section class="section" id="tools"><div class="eyebrow">ТВОЙ РАБОЧИЙ НАБОР</div><h2>От исходника — к результату</h2><div class="grid"><article class="card"><small>FFmpeg</small><h3>Полная обработка</h3><p>Объединяй этапы подготовки ролика в один рабочий процесс.</p></article><article class="card"><small>Resemble Enhance</small><h3>Работа со звуком</h3><p>Извлекай аудио и используй инструменты очистки речи от фонового шума.</p></article><article class="card"><small>FFmpeg</small><h3>Сокращение пауз</h3><p>Выбирай длительность пауз, которые нужно сократить.</p></article><article class="card"><small>Whisper</small><h3>Субтитры SRT</h3><p>Преобразуй речь в субтитры для дальнейшей работы с роликом.</p></article><article class="card"><small>Whisper</small><h3>Транскрипция TXT</h3><p>Получай текстовую расшифровку аудио и видео.</p></article><article class="card"><small>Real-ESRGAN</small><h3>Улучшение видео</h3><p>Используй нейросетевую обработку для повышения качества изображения.</p></article></div><p class="note">Предварительная версия сайта. Ссылки на скачивание, покупку и юридические документы появятся после проверки и настройки.</p></section></main><footer>© 2026 REELSEE · Творческое пространство</footer></body></html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REELSEE — Творческое пространство обработки видео и звука</title>
+  
+  <!-- Tektur -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #08090C;
+      --bg-card: #0F1218;
+      --bg-card-hover: #151922;
+      --border: #222938;
+      --border-bright: #3B465E;
+      --amber: #F59E0B;
+      --amber-glow: rgba(245, 158, 11, 0.25);
+      --amber-dark: #B45309;
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --font-tektur: 'Tektur', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-tektur);
+      line-height: 1.6;
+      overflow-x: hidden;
+      letter-spacing: 0.02em;
+    }
+
+    /* ФОНОВЫЙ ХЕДЕР С ПЛАНЕТОЙ */
+    .hero-wrapper {
+      position: relative;
+      background-color: var(--bg-main);
+      /* Твоя планета из репозитория */
+      background-image: 
+        radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.12), transparent 40%),
+        linear-gradient(to bottom, rgba(8, 9, 12, 0.2) 0%, rgba(8, 9, 12, 0.95) 85%, var(--bg-main) 100%),
+        url('https://raw.githubusercontent.com/amritagopi/REELSEE/main/frontend/src/assets/images/planet-bg.png');
+      background-size: cover;
+      background-position: right top;
+      background-repeat: no-repeat;
+      min-height: 90vh;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* НАВИГАЦИЯ */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 8%;
+      border-bottom: 1px solid rgba(34, 41, 56, 0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-title span.glow {
+      color: var(--amber);
+      text-shadow: 0 0 16px var(--amber);
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 6px 14px;
+      border-radius: 4px;
+      text-transform: lowercase;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--amber);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--amber);
+    }
+
+    /* ГЛАВНЫЙ ЭКРАН */
+    .hero-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 8%;
+      max-width: 900px;
+    }
+
+    .hero-tag {
+      font-size: 0.85rem;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      letter-spacing: 0.04em;
+    }
+
+    h1 span {
+      color: var(--amber);
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      max-width: 680px;
+      line-height: 1.7;
+    }
+
+    /* КНОПКИ ДЕЙСТВИЯ */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .btn {
+      font-family: var(--font-tektur);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 16px 32px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--amber);
+      color: #08090C;
+      border: 1px solid var(--amber);
+      box-shadow: 0 4px 20px var(--amber-glow);
+    }
+
+    .btn-primary:hover {
+      background: #FBBF24;
+      box-shadow: 0 6px 28px rgba(245, 158, 11, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(15, 18, 24, 0.7);
+      color: var(--text-main);
+      border: 1px solid var(--border-bright);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+      background: var(--bg-card);
+      transform: translateY(-2px);
+    }
+
+    /* СЕТКА МОДУЛЕЙ / ИНСТРУМЕНТОВ */
+    .section-title {
+      padding: 80px 8% 30px;
+      text-transform: uppercase;
+      font-size: 1.8rem;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      padding: 0 8% 80px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 30px;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: var(--amber);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+    }
+
+    .card-tech {
+      display: inline-block;
+      font-size: 0.75rem;
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 2px 8px;
+      border-radius: 2px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      color: #FFFFFF;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ПОДВАЛ И ССЫЛКИ ДЛЯ MICROSOFT STORE */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 8%;
+      background: #060709;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--amber);
+    }
+
+    /* МОДАЛЬНОЕ ОКНО PRIVACY POLICY */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--amber);
+      max-width: 720px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 40px;
+      border-radius: 4px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-box h2 {
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+    }
+
+    .modal-box p {
+      margin-bottom: 16px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .modal-close {
+      margin-top: 20px;
+      background: transparent;
+      border: 1px solid var(--border-bright);
+      color: var(--text-main);
+      padding: 10px 24px;
+      font-family: var(--font-tektur);
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      nav { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ХЕДЕР С ПЛАНЕТОЙ -->
+  <div class="hero-wrapper">
+    <nav>
+      <div class="brand">
+        <div class="brand-title">REELSEE <span class="glow">✦</span></div>
+        <div class="brand-subtitle">Творческое пространство</div>
+      </div>
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        <span>движок готов к работе</span>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+      <div class="hero-tag">AI-Powered Video & Audio Processing</div>
+      <h1>Полная обработка медиа в один клик</h1>
+      <p class="hero-desc">
+        Локальный студийный комбайн на базе Whisper, Resemble Enhance и Real-ESRGAN. 
+        Удаляйте шум и паузы, генерируйте субтитры и повышайте резкость видео прямо на вашем ПК.
+      </p>
+
+      <div class="actions">
+        <!-- Ссылка на покупку ключа через Tribute -->
+        <a href="https://web.tribute.tg" target="_blank" class="btn btn-primary" id="tributeLink">
+          ✦ Активировать Pro
+        </a>
+        
+        <!-- Ссылка на Microsoft Store -->
+        <a href="#features" class="btn btn-secondary">
+          Инструменты Reelsee
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- КАРТОЧКИ ФИЧЕЙ (В ТОЧНОСТИ КАК В ТВОЁМ ИНТЕРФЕЙСЕ) -->
+  <div class="section-title" id="features">Инструменты обработки</div>
+
+  <div class="grid">
+    <div class="card">
+      <span class="card-tech">FFmpeg + Whisper</span>
+      <h3>Полная обработка</h3>
+      <p>Очистка звука от фона, умное сжатие пауз до 0.15 с и автоматическая генерация синхронных субтитров за один прогон.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tech">Resemble Enhance</span>
+      <h3>Улучшение звука</h3>
+      <p>Глубокое восстановление спектра голоса, студийная чёткость и удаление комнатного эхо без искажения тембра.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tech">Real-ESRGAN</span>
+      <h3>Апскейлинг видео</h3>
+      <p>Нейросетевое повышение чёткости и детализации видеоряда с устранением артефактов компрессии.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tech">OpenAI Whisper</span>
+      <h3>Субтитры SRT & TXT</h3>
+      <p>Высокоточная мультиязычная транскрипция речи с идеальной тайминг-привязкой для Reels, Shorts и подкастов.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tech">Silero VAD</span>
+      <h3>Сокращение пауз</h3>
+      <p>Автоматическое обнаружение и удаление тишины, пустых участков и пауз. Выбирайте длительность пауз, которые нужно сократить.</p>
+    </div>
+
+    <div class="card">
+      <span class="card-tech">Local & Secure</span>
+      <h3>100% приватность</h3>
+      <p>Все нейросети работают строго локально на мощностях вашей видеокарты. Ваши файлы никогда не улетают в облако.</p>
+    </div>
+  </div>
+
+  <!-- ПОДВАЛ -->
+  <footer>
+    <div>© 2026 REELSEE. Творческое пространство. Все права защищены.</div>
+    <div class="footer-links">
+      <a href="javascript:void(0)" onclick="openPrivacy()">Privacy Policy</a>
+      <a href="mailto:support@reelsee.app">Поддержка</a>
+    </div>
+  </footer>
+
+  <!-- МОДАЛЬНОЕ ОКНО PRIVACY POLICY ДЛЯ МОДЕРАЦИИ -->
+  <div class="modal" id="privacyModal">
+    <div class="modal-box">
+      <h2>Privacy Policy for Reelsee</h2>
+      <p><strong>Effective Date:</strong> October 2026</p>
+      
+      <p><strong>1. Local Processing:</strong> Reelsee is a local desktop application. All audio and video processing, AI transcription (Whisper), enhancement, and upscaling are performed entirely offline on the user's hardware. No media files or processed content are uploaded to remote servers.</p>
+      
+      <p><strong>2. Payments & Licensing:</strong> License transactions are securely processed by authorized third-party platforms (Tribute). Reelsee does not collect, process, or store payment card credentials or personal financial information.</p>
+      
+      <p><strong>3. Data Collection:</strong> We do not track personal identifying information, browsing history, or behavioral metrics.</p>
+
+      <p><strong>4. Contact:</strong> For inquiries or refund assistance regarding license activations, please reach out via our official support channels.</p>
+
+      <button class="modal-close" onclick="closePrivacy()">Закрыть</button>
+    </div>
+  </div>
+
+  <script>
+    function openPrivacy() {
+      document.getElementById('privacyModal').classList.add('active');
+    }
+    function closePrivacy() {
+      document.getElementById('privacyModal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
