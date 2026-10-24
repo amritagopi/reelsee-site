@@ -56,6 +56,28 @@
     @media(max-width:900px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     @media(max-width:620px) { header { padding:15px 6%; } .brand img { width:42px; height:42px; } .hero { min-height:70vh; padding:64px 7%; background-position:62% center; } .lead { font-size:17px; } .grid { grid-template-columns:1fr; } .section { padding-top:54px; padding-bottom:54px; } footer { flex-direction:column; } .modal-box { padding:24px; } }
     @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms!important; } }
+\n    /* Quiet, purposeful motion: cinematic entrance, tactile cards, clear feedback. */
+    @keyframes hero-enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .intro > * { animation: hero-enter .72s cubic-bezier(.2,.7,.2,1) both; }
+    .intro > :nth-child(1) { animation-delay: .06s; }
+    .intro > :nth-child(2) { animation-delay: .14s; }
+    .intro > :nth-child(3) { animation-delay: .23s; }
+    .intro > :nth-child(4) { animation-delay: .31s; }
+    .intro > :nth-child(5) { animation-delay: .4s; }
+    .button { transition: transform .22s ease, background-color .22s ease, border-color .22s ease, box-shadow .22s ease; }
+    .button:hover { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(229,168,53,.13); }
+    .button:active { transform: translateY(0) scale(.985); }
+    .card { transition: transform .32s cubic-bezier(.2,.7,.2,1), border-color .25s ease, background-color .25s ease, box-shadow .32s ease; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 14px 34px rgba(0,0,0,.2), 0 0 0 1px rgba(229,168,53,.06); }
+    .card .card-tech { transition: letter-spacing .25s ease, color .25s ease; }
+    .card:hover .card-tech { letter-spacing: .07em; }
+    .motion-ready .reveal-on-scroll { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
+    .motion-ready .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+    .motion-ready .card:nth-child(2) { transition-delay: .06s; }
+    .motion-ready .card:nth-child(3) { transition-delay: .12s; }
+    .motion-ready .card:nth-child(4) { transition-delay: .04s; }
+    .motion-ready .card:nth-child(5) { transition-delay: .1s; }
+    .motion-ready .card:nth-child(6) { transition-delay: .16s; }
   </style>
 </head>
 <body>
@@ -80,7 +102,7 @@
       </div>
     </section>
     <section class="section" id="tools">
-      <div class="section-heading"><div class="eyebrow">Твой рабочий набор</div><h2>Инструменты обработки</h2></div>
+      <div class="section-heading"><div class="eyebrow">Ваш рабочий набор</div><h2>Инструменты обработки</h2></div>
       <div class="grid">
         <article class="card"><div class="card-tech">FFmpeg + Whisper</div><h3>Полная обработка</h3><p>Очистка звука от фона, умное сжатие пауз до 0.15 с и автоматическая генерация синхронных субтитров за один прогон.</p></article>
         <article class="card"><div class="card-tech">Resemble Enhance</div><h3>Улучшение звука</h3><p>Глубокое восстановление спектра голоса, студийная чёткость и удаление комнатного эхо без искажения тембра.</p></article>
@@ -113,6 +135,24 @@
     document.getElementById('privacyClose').addEventListener('click', function() { privacyModal.classList.remove('active'); document.getElementById('privacyLink').focus(); });
     privacyModal.addEventListener('click', function(event) { if (event.target === privacyModal) privacyModal.classList.remove('active'); });
     document.addEventListener('keydown', function(event) { if (event.key === 'Escape') privacyModal.classList.remove('active'); });
+\n    // Reveal content as it enters the viewport; keep everything visible without JS or reduced motion.
+    (function() {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion || !('IntersectionObserver' in window)) return;
+      const targets = document.querySelectorAll('.section-heading, .card, .note');
+      if (!targets.length) return;
+      document.documentElement.classList.add('motion-ready');
+      targets.forEach(function(element) { element.classList.add('reveal-on-scroll'); });
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+      targets.forEach(function(element) { observer.observe(element); });
+    })();
   </script>
 </body>
 </html>
