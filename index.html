@@ -56,7 +56,8 @@
     @media(max-width:900px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     @media(max-width:620px) { header { padding:15px 6%; } .brand img { width:42px; height:42px; } .hero { min-height:70vh; padding:64px 7%; background-position:62% center; } .lead { font-size:17px; } .grid { grid-template-columns:1fr; } .section { padding-top:54px; padding-bottom:54px; } footer { flex-direction:column; } .modal-box { padding:24px; } }
     @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms!important; } }
-\n    /* Quiet, purposeful motion: cinematic entrance, tactile cards, clear feedback. */
+
+    /* Quiet, purposeful motion: cinematic entrance, tactile cards, clear feedback. */
     @keyframes hero-enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
     .intro > * { animation: hero-enter .72s cubic-bezier(.2,.7,.2,1) both; }
     .intro > :nth-child(1) { animation-delay: .06s; }
@@ -135,7 +136,8 @@
     document.getElementById('privacyClose').addEventListener('click', function() { privacyModal.classList.remove('active'); document.getElementById('privacyLink').focus(); });
     privacyModal.addEventListener('click', function(event) { if (event.target === privacyModal) privacyModal.classList.remove('active'); });
     document.addEventListener('keydown', function(event) { if (event.key === 'Escape') privacyModal.classList.remove('active'); });
-\n    // Reveal content as it enters the viewport; keep everything visible without JS or reduced motion.
+
+    // Reveal content as it enters the viewport; keep everything visible without JS or reduced motion.
     (function() {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduceMotion || !('IntersectionObserver' in window)) return;
