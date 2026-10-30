@@ -41,9 +41,12 @@
     .button-quiet { background:transparent; color:var(--paper); box-shadow:inset 0 0 0 1px var(--line); clip-path:none; }
     .button-quiet:hover, .button-quiet:focus-visible, .button-quiet:active { background:var(--gold); color:var(--obsidian); box-shadow:inset 0 0 0 1px var(--gold); }
     .hero > .planet { display:none; }
-    .processing-beam { position:relative; isolation:isolate; display:grid; place-items:center; min-height:220px; overflow:hidden; background:linear-gradient(180deg,#0b0d11 0%,#101116 48%,#0d0f13 100%); }
-    .processing-beam::before { position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse at center,rgba(250,217,128,.08),transparent 57%); content:""; }
+    .processing-beam { position:relative; isolation:isolate; display:grid; place-items:center; min-height:220px; overflow:hidden; background:transparent; }
+    .processing-beam::before { position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse at center,rgba(250,217,128,.06),transparent 60%); content:""; }
     .beam-track { position:relative; width:100%; height:180px; overflow:hidden; }
+    .beam-track::before, .beam-track::after { position:absolute; left:0; right:0; height:1px; background:radial-gradient(ellipse at center,rgba(250,217,128,.42) 0%,rgba(250,217,128,.12) 28%,transparent 70%); content:""; z-index:4; pointer-events:none; }
+    .beam-track::before { top:0; }
+    .beam-track::after { bottom:0; }
     .beam-core { position:absolute; z-index:5; top:50%; left:50%; width:2px; height:150px; border-radius:30px; background:linear-gradient(to bottom,transparent,rgba(250,217,128,.5),rgba(255,241,191,.82),rgba(250,217,128,.5),transparent); box-shadow:0 0 12px rgba(250,217,128,.62),0 0 28px rgba(250,217,128,.24); transform:translate(-50%,-50%); pointer-events:none; }
     .beam-core::before,.beam-core::after { position:absolute; inset:0 auto 0 50%; width:30px; background:linear-gradient(90deg,transparent,rgba(250,217,128,.06),transparent); content:""; transform:translateX(-50%); }
     .beam-core::after { width:72px; opacity:.35; }
@@ -107,6 +110,7 @@
   </style>
 </head>
 <body>
+  <canvas class="site-constellation" id="constellation" aria-hidden="true"></canvas>
   <header>
     <a class="brand" href="#" data-i18n-aria="brandLabel" aria-label="REELSEE — главная">
       <img src="assets/app-icon.png" alt="">
@@ -120,7 +124,6 @@
   <main>
     <section class="hero">
 
-      <canvas class="site-constellation" id="constellation" aria-hidden="true"></canvas>
       <div class="intro">        <h1 data-i18n="heroTitle" data-i18n-html>меньше рутины.<br>больше творчества.</h1>
         <p class="lead" data-i18n="lead">Загрузите ролик. Речь, паузы, субтитры и картинка обрабатываются здесь. Разбираться в нейросетях не нужно. Файл остаётся на этом компьютере.</p>
         <div class="actions">
