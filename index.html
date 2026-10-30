@@ -47,9 +47,9 @@
     .beam-track::before, .beam-track::after { position:absolute; left:0; right:0; height:1px; background:radial-gradient(ellipse at center,rgba(250,217,128,.42) 0%,rgba(250,217,128,.12) 28%,transparent 70%); content:""; z-index:4; pointer-events:none; }
     .beam-track::before { top:0; }
     .beam-track::after { bottom:0; }
-    .beam-core { position:absolute; z-index:5; top:50%; left:50%; width:2px; height:150px; border-radius:30px; background:linear-gradient(to bottom,transparent,rgba(250,217,128,.5),rgba(255,241,191,.82),rgba(250,217,128,.5),transparent); box-shadow:0 0 12px rgba(250,217,128,.62),0 0 28px rgba(250,217,128,.24); transform:translate(-50%,-50%); pointer-events:none; }
-    .beam-core::before,.beam-core::after { position:absolute; inset:0 auto 0 50%; width:30px; background:linear-gradient(90deg,transparent,rgba(250,217,128,.06),transparent); content:""; transform:translateX(-50%); }
-    .beam-core::after { width:72px; opacity:.35; }
+    .beam-core { position:absolute; z-index:5; top:0; bottom:0; left:50%; width:2px; height:100%; background:linear-gradient(to bottom,rgba(255,241,191,.9) 0%,rgba(250,217,128,.7) 18%,rgba(255,241,191,.95) 50%,rgba(250,217,128,.7) 82%,rgba(255,241,191,.9) 100%); box-shadow:0 0 12px rgba(250,217,128,.7),0 0 26px rgba(250,217,128,.28); transform:translateX(-50%); pointer-events:none; }
+    .beam-core::before,.beam-core::after { position:absolute; inset:0 auto 0 50%; width:34px; background:linear-gradient(90deg,transparent,rgba(250,217,128,.08),transparent); content:""; transform:translateX(-50%); }
+    .beam-core::after { width:80px; opacity:.4; }
     .beam-line { position:absolute; z-index:0; top:50%; left:0; display:flex; align-items:center; gap:34px; width:max-content; transform:translateY(-50%); will-change:transform; pointer-events:none; }
     .video-file-wrap { position:relative; flex:none; width:176px; height:108px; }
 
