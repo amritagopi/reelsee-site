@@ -5,139 +5,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d0f13">
   <title>REELSEE — творческое пространство</title>
-  <meta name="description" content="REELSEE — инструменты для обработки видео и звука: очистка речи, сокращение пауз, субтитры и улучшение изображения.">
+  <meta name="description" content="REELSEE очищает речь, сокращает паузы, делает субтитры и может улучшить картинку. Файл остаётся на компьютере.">
   <link rel="icon" href="assets/app-icon.png">
   <style>
-    @font-face { font-family: Tektur; src: url('assets/Tektur-Regular.ttf') format('truetype'); font-display: swap; }
-    :root { --bg:#0d0f13; --panel:#13171e; --panel-hover:#181d26; --border:#232934; --accent:#e5a835; --text:#f5f3ed; --muted:#bab2a5; --font:Tektur,-apple-system,BlinkMacSystemFont,sans-serif; }
+    @font-face { font-family: Tektur; src: url('assets/Tektur-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+    :root { --obsidian:#0d0f13; --gold:#fad980; --paper:#f5f3ed; --dust:#bab2a5; --line:#232934; --font:Tektur,sans-serif; }
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
-    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.7 var(--font); letter-spacing:.01em; }
+    body { margin:0; background:var(--obsidian); color:var(--paper); font:400 17px/1.6 var(--font); }
+    header, main, footer { position:relative; z-index:1; }
     a { color:inherit; }
-    a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline-offset:5px; }
-    header { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:18px 6%; border-bottom:1px solid var(--border); background:var(--bg); }
-    .brand { display:flex; align-items:center; gap:14px; text-decoration:none; }
-    .brand img { width:48px; height:48px; object-fit:contain; }
-    .brand-name { font-size:1.2rem; letter-spacing:.16em; }
-    .brand small { display:block; color:var(--muted); font-size:11px; letter-spacing:.16em; }
-    nav a { text-decoration:none; color:var(--accent); }
-    .hero { min-height:78vh; display:flex; align-items:center; padding:90px 7%; background:linear-gradient(90deg,rgba(13,15,19,.97) 5%,rgba(13,15,19,.78) 55%,rgba(13,15,19,.2) 100%),linear-gradient(0deg,rgba(13,15,19,.82),transparent 35%),url('assets/planet-bg.png') center/cover no-repeat; }
-    .intro { max-width:780px; }
-    .eyebrow { color:var(--accent); font-size:13px; letter-spacing:.15em; text-transform:uppercase; }
-    h1 { font-size:clamp(34px,5vw,70px); line-height:1.15; font-weight:500; margin:24px 0; }
-    h1 span { color:var(--accent); }
-    .lead { max-width:660px; color:var(--muted); font-size:19px; }
-    .actions { display:flex; flex-wrap:wrap; gap:14px; margin-top:28px; }
-    .button { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 22px; border:1px solid var(--accent); border-radius:0; clip-path:polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%); background:var(--accent); color:#0a0d12; font:600 14px/1.4 var(--font); text-decoration:none; transition:background .18s ease,border-color .18s ease,transform .22s ease,box-shadow .22s ease; }
-    .button:focus-visible { clip-path:none; outline:2px solid var(--accent); outline-offset:3px; }
-    .button:hover { background:#f0bc50; border-color:#f0bc50; }
-    .button-secondary { background:transparent; color:var(--text); border-color:#444b58; border-radius:0; clip-path:none; }
-    .button-secondary:hover { background:var(--panel); color:var(--accent); border-color:var(--accent); }
-    .section { max-width:1500px; margin:auto; padding:70px 7%; }
-    .section-heading { margin-bottom:28px; }
-    h2 { font-size:clamp(25px,3vw,34px); font-weight:500; margin:10px 0 0; }
-    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
-    .card { padding:26px; background:var(--panel); border:1px solid var(--border); border-radius:4px; transition:border-color .18s ease,background .18s ease; }
-    .card:hover { border-color:#5b5140; background:var(--panel-hover); }
-    .card-tech { display:inline-block; margin-bottom:12px; color:var(--accent); font-size:12px; letter-spacing:.04em; }
-    .card h3 { margin:0 0 10px; font-size:20px; font-weight:500; }
-    .card p { margin:0; color:var(--muted); font-size:15px; }
-    .note { border-left:2px solid var(--accent); padding:10px 18px; margin-top:32px; color:var(--muted); font-size:14px; }
-    footer { display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; padding:26px 7%; border-top:1px solid var(--border); color:var(--muted); font-size:13px; }
+    :focus-visible { outline:2px solid var(--gold); outline-offset:4px; }
+    ::selection { background:var(--gold); color:var(--obsidian); }
+    header, .hero, .tools, footer { padding-left:6%; padding-right:6%; }
+    header { position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:76px; z-index:3; }
+    .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .brand img { width:40px; height:40px; object-fit:contain; }
+    .brand-name { font-size:15px; letter-spacing:.14em; }
+    .header-tools { display:flex; align-items:center; gap:22px; }
+    nav a { text-decoration:none; }
+    nav a:hover { color:var(--gold); }
+    .lang-btn { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; padding:0; color:var(--dust); background:transparent; border:0; cursor:pointer; }
+    .lang-btn:hover { color:var(--gold); }
+    .lang-btn svg { width:16px; height:16px; display:block; }
+    .hero { position:relative; isolation:isolate; display:grid; grid-template-columns:minmax(0,1fr); align-items:end; min-height:100vh; padding-top:112px; padding-bottom:64px; background:linear-gradient(90deg,rgba(13,15,19,.93) 0%,rgba(13,15,19,.72) 44%,rgba(13,15,19,.12) 100%),linear-gradient(0deg,rgba(13,15,19,.48),transparent 42%),url('assets/planet-bg.png') center/cover no-repeat; }
+    .constellation { position:absolute; inset:0; z-index:0; width:100%; height:100%; pointer-events:none; }
+    .intro { position:relative; z-index:1; max-width:780px; }
+    h1 { margin:0; font-size:clamp(44px,6.2vw,84px); font-weight:500; line-height:.96; letter-spacing:-.03em; }
+    .lead { max-width:36rem; margin:28px 0 0; color:var(--dust); font-size:18px; line-height:1.55; }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+    .button { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 20px; border:0; background:var(--gold); color:var(--obsidian); font:500 15px/1.3 var(--font); text-decoration:none; clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%); }
+    .button:hover { background:#ffe7a8; }
+    .button:focus-visible { clip-path:none; }
+    .button-quiet { background:transparent; color:var(--paper); box-shadow:inset 0 0 0 1px var(--line); clip-path:none; }
+    .button-quiet:hover, .button-quiet:focus-visible, .button-quiet:active { background:var(--gold); color:var(--obsidian); box-shadow:inset 0 0 0 1px var(--gold); }
+    .hero > .planet { display:none; }
+    .tools { max-width:980px; padding-top:8px; padding-bottom:88px; }
+    .tool { display:grid; grid-template-columns:minmax(11rem,16rem) minmax(0,1fr); gap:28px; padding:22px 0; border-top:1px solid var(--line); }
+    .tool:last-child { border-bottom:1px solid var(--line); }
+    .tool h2, .tool h3 { margin:0; font-weight:500; }
+    .tool h2 { font-size:clamp(28px,3vw,40px); letter-spacing:-.02em; }
+    .tool h3 { font-size:18px; }
+    .tool p { margin:0; max-width:62ch; color:var(--dust); }
+    .tool-lead { grid-template-columns:1fr; gap:12px; padding-top:4px; padding-bottom:34px; border-top:0; }
+    .tool-lead p { font-size:18px; }
+    footer { display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px 28px; padding-top:22px; padding-bottom:28px; border-top:1px solid var(--line); color:var(--dust); font-size:14px; }
     .footer-links { display:flex; flex-wrap:wrap; gap:20px; }
     .footer-links a { text-decoration:none; }
-    .footer-links a:hover { color:var(--accent); }
-    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:1000; align-items:center; justify-content:center; padding:20px; }
+    .footer-links a:hover { color:var(--gold); }
+    .modal { display:none; position:fixed; inset:0; z-index:20; align-items:center; justify-content:center; padding:20px; background:rgba(8,9,12,.86); }
     .modal.active { display:flex; }
-    .modal-box { width:100%; max-width:720px; max-height:80vh; overflow-y:auto; padding:32px; border:1px solid var(--border); border-radius:4px; background:var(--panel); }
-    .modal-box h2 { color:var(--accent); margin:0 0 20px; }
-    .modal-box p { color:var(--muted); font-size:14px; margin:0 0 16px; }
-    .modal-close { margin-top:8px; padding:10px 20px; border:1px solid #444b58; border-radius:0; background:transparent; color:var(--text); font:inherit; cursor:pointer; }
-    .modal-close:hover { border-color:var(--accent); color:var(--accent); }
-    @media(max-width:900px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-    @media(max-width:620px) { header { padding:15px 6%; } .brand img { width:42px; height:42px; } .hero { min-height:70vh; padding:64px 7%; background-position:62% center; } .lead { font-size:17px; } .grid { grid-template-columns:1fr; } .section { padding-top:54px; padding-bottom:54px; } footer { flex-direction:column; } .modal-box { padding:24px; } }
-    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms!important; } }
-
-    /* Quiet, purposeful motion: cinematic entrance, tactile cards, clear feedback. */
-    @keyframes hero-enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-    .intro > * { animation: hero-enter .72s cubic-bezier(.2,.7,.2,1) both; }
-    .intro > :nth-child(1) { animation-delay: .06s; }
-    .intro > :nth-child(2) { animation-delay: .14s; }
-    .intro > :nth-child(3) { animation-delay: .23s; }
-    .intro > :nth-child(4) { animation-delay: .31s; }
-    .intro > :nth-child(5) { animation-delay: .4s; }
-    .button { transition: transform .22s ease, background-color .22s ease, border-color .22s ease, box-shadow .22s ease; }
-    .button:hover { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(229,168,53,.13); }
-    .button:active { transform: translateY(0) scale(.985); }
-    .card { transition: transform .32s cubic-bezier(.2,.7,.2,1), border-color .25s ease, background-color .25s ease, box-shadow .32s ease; }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 14px 34px rgba(0,0,0,.2), 0 0 0 1px rgba(229,168,53,.06); }
-    .card .card-tech { transition: letter-spacing .25s ease, color .25s ease; }
-    .card:hover .card-tech { letter-spacing: .07em; }
-    .motion-ready .reveal-on-scroll { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
-    .motion-ready .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
-    .motion-ready .card:nth-child(2) { transition-delay: .06s; }
-    .motion-ready .card:nth-child(3) { transition-delay: .12s; }
-    .motion-ready .card:nth-child(4) { transition-delay: .04s; }
-    .motion-ready .card:nth-child(5) { transition-delay: .1s; }
-    .motion-ready .card:nth-child(6) { transition-delay: .16s; }
-  
-    .header-tools { display: flex; align-items: center; gap: 8px; }
-    .lang-btn { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; padding: 0; color: var(--muted); background: transparent; border: none; cursor: pointer; flex-shrink: 0; transition: color 120ms ease; }
-    .lang-btn:hover { color: var(--accent); }
-    .lang-btn svg { width: 16px; height: 16px; display: block; }
+    .modal-box { width:100%; max-width:680px; max-height:80vh; overflow:auto; padding:28px; background:var(--obsidian); border:1px solid var(--line); }
+    .modal-box h2 { margin:0 0 18px; font-size:22px; font-weight:500; }
+    .modal-box p { margin:0 0 14px; color:var(--dust); font-size:15px; }
+    .modal-close { margin-top:8px; min-height:44px; padding:8px 16px; border:1px solid var(--line); background:transparent; color:var(--paper); font:inherit; cursor:pointer; }
+    .modal-close:hover { border-color:var(--gold); color:var(--gold); }
+    @media (max-width:860px) {
+      .hero { grid-template-columns:1fr; min-height:100svh; gap:28px; padding-top:112px; padding-bottom:56px; background-position:58% center; }
+      .intro { align-self:end; }
+      .tool, .tool-lead { grid-template-columns:1fr; gap:8px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      html { scroll-behavior:auto; }
+      .constellation { display:none; }
+    }
   </style>
 </head>
 <body>
   <header>
     <a class="brand" href="#" data-i18n-aria="brandLabel" aria-label="REELSEE — главная">
       <img src="assets/app-icon.png" alt="">
-      <span class="brand-name">REELSEE<small data-i18n="brandSmall">ТВОРЧЕСКОЕ ПРОСТРАНСТВО</small></span>
+      <span class="brand-name">REELSEE</span>
     </a>
-    <div class="header-tools"><button type="button" class="lang-btn" id="langToggle" aria-label="переключить на английский"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0.16c-6.0352375 0 -9.80725625 6.53333125 -6.7896375 11.76 3.01761875 5.22666875 10.56165625 5.22666875 13.579275 0C15.47774375 10.72816875 15.84 9.37620625 15.84 8 15.83525 3.67205625 12.32794375 0.16475 8 0.16Zm7.2049625 7.5264h-3.7632c-0.0901625 -3.57111875 -1.70441875 -5.84236875 -2.62483125 -6.8521625 3.5227875 0.4063125 6.22974375 3.3095875 6.3888125 6.8521625ZM8 15.103825c-0.6522875 -0.6272 -2.7102875 -2.91099375 -2.8169125 -6.790225h5.633825c-0.106625 3.87923125 -2.164625 6.163025 -2.8169125 6.790225ZM5.1830875 7.6864C5.2897125 3.80716875 7.3477125 1.523375 8 0.896175c0.6522875 0.6272 2.7102875 2.91099375 2.8169125 6.790225ZM7.1799375 0.8342375c-0.92041875 1.00979375 -2.534675 3.28104375 -2.62483125 6.8521625H0.79190625C0.95091875 4.1440875 3.65745 1.24090625 7.1799375 0.8342375ZM0.79425625 8.3136h3.7632c0.0901625 3.57111875 1.70441875 5.84236875 2.62483125 6.8521625 -3.52248125 -0.40666875 -6.22901875 -3.30985 -6.38803125 -6.8521625ZM8.8200625 15.1657625c0.92041875 -1.00979375 2.534675 -3.28104375 2.62483125 -6.8521625h3.7632c-0.1590125 3.5423125 -2.86554375 6.44549375 -6.38803125 6.8521625Z"/></svg></button><nav data-i18n-aria="navLabel" aria-label="Главная навигация"><a href="#tools" data-i18n="nav">Инструменты</a></nav></div>
+    <div class="header-tools">
+      <nav data-i18n-aria="navLabel" aria-label="Главная навигация"><a href="#tools" data-i18n="nav">инструменты</a></nav>
+      <button type="button" class="lang-btn" id="langToggle" aria-label="переключить на английский"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0.16c-6.0352375 0 -9.80725625 6.53333125 -6.7896375 11.76 3.01761875 5.22666875 10.56165625 5.22666875 13.579275 0C15.47774375 10.72816875 15.84 9.37620625 15.84 8 15.83525 3.67205625 12.32794375 0.16475 8 0.16Zm7.2049625 7.5264h-3.7632c-0.0901625 -3.57111875 -1.70441875 -5.84236875 -2.62483125 -6.8521625 3.5227875 0.4063125 6.22974375 3.3095875 6.3888125 6.8521625ZM8 15.103825c-0.6522875 -0.6272 -2.7102875 -2.91099375 -2.8169125 -6.790225h5.633825c-0.106625 3.87923125 -2.164625 6.163025 -2.8169125 6.790225ZM5.1830875 7.6864C5.2897125 3.80716875 7.3477125 1.523375 8 0.896175c0.6522875 0.6272 2.7102875 2.91099375 2.8169125 6.790225ZM7.1799375 0.8342375c-0.92041875 1.00979375 -2.534675 3.28104375 -2.62483125 6.8521625H0.79190625C0.95091875 4.1440875 3.65745 1.24090625 7.1799375 0.8342375ZM0.79425625 8.3136h3.7632c0.0901625 3.57111875 1.70441875 5.84236875 2.62483125 6.8521625 -3.52248125 -0.40666875 -6.22901875 -3.30985 -6.38803125 -6.8521625ZM8.8200625 15.1657625c0.92041875 -1.00979375 2.534675 -3.28104375 2.62483125 -6.8521625h3.7632c-0.1590125 3.5423125 -2.86554375 6.44549375 -6.38803125 6.8521625Z"/></svg></button>
+    </div>
   </header>
   <main>
     <section class="hero">
       <div class="intro">
-        <div class="eyebrow" data-i18n="heroEyebrow">Видео · звук · творчество</div>
-        <h1 data-i18n="heroTitle" data-i18n-html>Меньше рутины.<br><span>Больше творчества.</span></h1>
-        <p class="lead" data-i18n="lead1">Обрабатывайте видео и звук в одном рабочем пространстве: очищайте речь от шума, сокращайте паузы, создавайте субтитры и улучшайте качество изображения.</p>
-        <p class="lead" data-i18n="lead2">Не нужно разбираться в нейросетях и технических настройках: загрузите файл, нажмите «Запуск» — REELSEE сделает всё под капотом и выдаст готовый результат. А если захочется, можно заглянуть глубже и настроить детали.</p>
+        <h1 data-i18n="heroTitle" data-i18n-html>меньше рутины.<br>больше творчества.</h1>
+        <p class="lead" data-i18n="lead">Загрузите ролик. Речь, паузы, субтитры и картинка обрабатываются здесь. Разбираться в нейросетях не нужно. Файл остаётся на этом компьютере.</p>
         <div class="actions">
-          <a class="button" href="https://web.tribute.tg" target="_blank" rel="noopener noreferrer" id="tributeLink" data-i18n="activate">Активировать Pro</a>
-          <a class="button button-secondary" href="#tools" data-i18n="seeTools">Посмотреть инструменты</a>
+          <a class="button" href="https://web.tribute.tg" target="_blank" rel="noopener noreferrer" id="tributeLink" data-i18n="activate">активировать pro</a>
+          <a class="button button-quiet" href="#tools" data-i18n="seeTools">инструменты</a>
         </div>
       </div>
+      <canvas class="constellation" id="constellation" aria-hidden="true"></canvas>
     </section>
-    <section class="section" id="tools">
-      <div class="section-heading"><div class="eyebrow" data-i18n="toolsEyebrow">Ваш рабочий набор</div><h2 data-i18n="toolsTitle">Инструменты обработки</h2></div>
-      <div class="grid">
-        <article class="card"><div class="card-tech">FFmpeg + Whisper</div><h3 data-i18n="card1Title">Полная обработка</h3><p data-i18n="card1Body">Очистка звука от фона, умное сжатие пауз до 0.15 с и автоматическая генерация синхронных субтитров за один прогон.</p></article>
-        <article class="card"><div class="card-tech">Resemble Enhance</div><h3 data-i18n="card2Title">Улучшение звука</h3><p data-i18n="card2Body">Глубокое восстановление спектра голоса, студийная чёткость и удаление комнатного эхо без искажения тембра.</p></article>
-        <article class="card"><div class="card-tech">Real-ESRGAN</div><h3 data-i18n="card3Title">Апскейлинг видео</h3><p data-i18n="card3Body">Нейросетевое повышение чёткости и детализации видеоряда с устранением артефактов компрессии.</p></article>
-        <article class="card"><div class="card-tech">OpenAI Whisper</div><h3 data-i18n="card4Title">Субтитры SRT &amp; TXT</h3><p data-i18n="card4Body">Высокоточная мультиязычная транскрипция речи с идеальной тайминг-привязкой для Reels, Shorts и подкастов.</p></article>
-        <article class="card"><div class="card-tech">Silero VAD</div><h3 data-i18n="card5Title">Сокращение пауз</h3><p data-i18n="card5Body">Автоматическое обнаружение и удаление тишины, пустых участков и пауз. Выбирайте длительность пауз, которые нужно сократить.</p></article>
-        <article class="card"><div class="card-tech">Local &amp; Secure</div><h3 data-i18n="card6Title">100% приватность</h3><p data-i18n="card6Body">Все нейросети работают строго локально на мощностях вашей видеокарты. Ваши файлы никогда не улетают в облако.</p></article>
-      </div>
-      <p class="note" id="about" data-i18n="note">REELSEE — компактный набор инструментов для создателей видео, которым хочется меньше повторяющейся работы и больше времени на сам контент.</p>
+    <section class="tools" id="tools" data-i18n-aria="toolsLabel" aria-label="инструменты">
+      <article class="tool tool-lead"><h2 data-i18n="card1Title">полная обработка</h2><p data-i18n="card1Body">Очищает речь от фона, сокращает паузы до 0,15 с и пишет субтитры за один проход.</p></article>
+      <article class="tool"><h3 data-i18n="card2Title">улучшение звука</h3><p data-i18n="card2Body">Убирает комнатное эхо и возвращает ясность голоса, не меняя тембр.</p></article>
+      <article class="tool"><h3 data-i18n="card3Title">апскейл картинки</h3><p data-i18n="card3Body">Повышает чёткость и смягчает следы сжатия.</p></article>
+      <article class="tool"><h3 data-i18n="card4Title">субтитры</h3><p data-i18n="card4Body">Распознаёт речь на нескольких языках и ставит тайминг для коротких роликов и подкастов.</p></article>
+      <article class="tool"><h3 data-i18n="card5Title">сокращение пауз</h3><p data-i18n="card5Body">Находит тишину и пустые места. Вы выбираете, какую паузу сокращать.</p></article>
+      <article class="tool"><h3 data-i18n="card6Title">файл остаётся здесь</h3><p data-i18n="card6Body">Обработка идёт на этом компьютере, с видеокартой или без. Ролик никуда не отправляется.</p></article>
     </section>
   </main>
   <footer>
-    <div data-i18n="footer">© 2026 REELSEE · Творческое пространство</div>
-    <div class="footer-links"><a href="#" id="privacyLink" data-i18n="privacyLink">Privacy Policy</a><a href="mailto:support@reelsee.app" data-i18n="support">Поддержка</a></div>
+    <div data-i18n="footer">© 2026 REELSEE</div>
+    <div data-i18n="footerTag">творческое пространство</div>
+    <div class="footer-links"><a href="#" id="privacyLink" data-i18n="privacyLink">политика конфиденциальности</a><a href="mailto:support@reelsee.app" data-i18n="support">поддержка</a></div>
   </footer>
   <div class="modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
     <div class="modal-box">
-      <h2 id="privacyTitle" data-i18n="privacyTitle" data-i18n-html>Политика конфиденциальности REELSEE</h2>
+      <h2 id="privacyTitle" data-i18n="privacyTitle">политика конфиденциальности REELSEE</h2>
       <p data-i18n="privacy1" data-i18n-html><strong>Дата:</strong> октябрь 2026</p>
-      <p data-i18n="privacy2" data-i18n-html><strong>1. Локальная обработка:</strong> REELSEE — настольное приложение. Обработка аудио и видео, транскрипция (Whisper), улучшение и апскейлинг выполняются на компьютере пользователя. Файлы и результаты не загружаются на удалённые серверы.</p>
+      <p data-i18n="privacy2" data-i18n-html><strong>1. Локальная обработка:</strong> REELSEE — настольное приложение. Обработка аудио и видео, транскрипция, улучшение и апскейлинг выполняются на компьютере пользователя. Файлы и результаты не загружаются на удалённые серверы.</p>
       <p data-i18n="privacy3" data-i18n-html><strong>2. Оплата и лицензия:</strong> платежи принимает сторонняя площадка (Tribute). REELSEE не собирает и не хранит данные банковских карт.</p>
       <p data-i18n="privacy4" data-i18n-html><strong>3. Данные:</strong> мы не отслеживаем личные данные, историю просмотров и поведенческие метрики.</p>
       <p data-i18n="privacy5" data-i18n-html><strong>4. Контакт:</strong> по вопросам лицензии и возврата напишите в поддержку.</p>
-      <button class="modal-close" id="privacyClose" type="button" data-i18n="close">Закрыть</button>
+      <button class="modal-close" id="privacyClose" type="button" data-i18n="close">закрыть</button>
     </div>
   </div>
   <script>
-    const siteCopy = {"ru": {"title": "REELSEE — творческое пространство", "description": "REELSEE — инструменты для обработки видео и звука: очистка речи, сокращение пауз, субтитры и улучшение изображения.", "brandLabel": "REELSEE — главная", "brandSmall": "ТВОРЧЕСКОЕ ПРОСТРАНСТВО", "navLabel": "Главная навигация", "nav": "Инструменты", "heroTitle": "Меньше рутины.<br><span>Больше творчества.</span>", "activate": "Активировать Pro", "seeTools": "Посмотреть инструменты", "toolsTitle": "Инструменты обработки", "note": "REELSEE — компактный набор инструментов для создателей видео, которым хочется меньше повторяющейся работы и больше времени на сам контент.", "footer": "© 2026 REELSEE · Творческое пространство", "privacyLink": "Политика конфиденциальности", "support": "Поддержка", "close": "Закрыть", "heroEyebrow": "Видео · звук · творчество", "toolsEyebrow": "Ваш рабочий набор", "lead1": "Обрабатывайте видео и звук в одном рабочем пространстве: очищайте речь от шума, сокращайте паузы, создавайте субтитры и улучшайте качество изображения.", "lead2": "Не нужно разбираться в нейросетях и технических настройках: загрузите файл, нажмите «Запуск» — REELSEE сделает всё под капотом и выдаст готовый результат. А если захочется, можно заглянуть глубже и настроить детали.", "card1Title": "Полная обработка", "card1Body": "Очистка звука от фона, умное сжатие пауз до 0.15 с и автоматическая генерация синхронных субтитров за один прогон.", "card2Title": "Улучшение звука", "card2Body": "Глубокое восстановление спектра голоса, студийная чёткость и удаление комнатного эхо без искажения тембра.", "card3Title": "Апскейлинг видео", "card3Body": "Нейросетевое повышение чёткости и детализации видеоряда с устранением артефактов компрессии.", "card4Title": "Субтитры SRT & TXT", "card4Body": "Высокоточная мультиязычная транскрипция речи с идеальной тайминг-привязкой для Reels, Shorts и подкастов.", "card5Title": "Сокращение пауз", "card5Body": "Автоматическое обнаружение и удаление тишины, пустых участков и пауз. Выбирайте длительность пауз, которые нужно сократить.", "card6Title": "100% приватность", "card6Body": "Все нейросети работают строго локально на мощностях вашей видеокарты. Ваши файлы никогда не улетают в облако.", "switchLanguage": "переключить на английский", "privacyTitle": "Политика конфиденциальности REELSEE", "privacy1": "<strong>Дата:</strong> октябрь 2026", "privacy2": "<strong>1. Локальная обработка:</strong> REELSEE — настольное приложение. Обработка аудио и видео, транскрипция (Whisper), улучшение и апскейлинг выполняются на компьютере пользователя. Файлы и результаты не загружаются на удалённые серверы.", "privacy3": "<strong>2. Оплата и лицензия:</strong> платежи принимает сторонняя площадка (Tribute). REELSEE не собирает и не хранит данные банковских карт.", "privacy4": "<strong>3. Данные:</strong> мы не отслеживаем личные данные, историю просмотров и поведенческие метрики.", "privacy5": "<strong>4. Контакт:</strong> по вопросам лицензии и возврата напишите в поддержку."}, "en": {"title": "REELSEE — a creator workspace", "description": "REELSEE — tools for video and sound: clean speech, shorten pauses, make subtitles, and improve the picture.", "brandLabel": "REELSEE — home", "brandSmall": "CREATOR WORKSPACE", "navLabel": "Main navigation", "nav": "Tools", "heroEyebrow": "Video · sound · craft", "heroTitle": "Less routine.<br><span>More creating.</span>", "lead1": "Work with video and sound in one place: clean speech, shorten pauses, make subtitles, and improve the picture.", "lead2": "You do not need to learn neural networks or technical settings: load a file, press Start, and REELSEE does the rest. If you want, you can look closer and adjust the details.", "activate": "Activate Pro", "seeTools": "See the tools", "toolsEyebrow": "Your working set", "toolsTitle": "Processing tools", "card1Title": "Full processing", "card1Body": "Cleans background noise, shortens pauses down to 0.15 s, and writes synced subtitles in one pass.", "card2Title": "Sound enhancement", "card2Body": "Restores the voice spectrum and studio clarity, and removes room echo without distorting the tone.", "card3Title": "Video upscaling", "card3Body": "Neural sharpening and detail recovery, with compression artifacts reduced.", "card4Title": "SRT & TXT subtitles", "card4Body": "Accurate multilingual transcription, timed for Reels, Shorts, and podcasts.", "card5Title": "Pause cutting", "card5Body": "Finds and removes silence, empty stretches, and pauses. You choose how long a pause must be before it is shortened.", "card6Title": "100% private", "card6Body": "Every model runs locally on your computer. Your files are never uploaded.", "note": "REELSEE is a compact set of tools for people who make video and would rather spend time on the work itself than on repeating the same steps.", "footer": "© 2026 REELSEE · creator workspace", "privacyLink": "Privacy Policy", "support": "Support", "close": "Close", "switchLanguage": "switch to russian", "privacyTitle": "Privacy Policy for REELSEE", "privacy1": "<strong>Effective date:</strong> October 2026", "privacy2": "<strong>1. Local processing:</strong> REELSEE is a desktop application. Audio and video processing, transcription (Whisper), enhancement, and upscaling all run on your computer. Files and results are not uploaded to remote servers.", "privacy3": "<strong>2. Payment and license:</strong> Payments are handled by a third-party platform (Tribute). REELSEE does not collect or store card details or other financial information.", "privacy4": "<strong>3. Data:</strong> We do not track personal information, browsing history, or behavioral metrics.", "privacy5": "<strong>4. Contact:</strong> For license or refund questions, write to support."}};
+    const siteCopy = {"ru":{"title":"REELSEE — творческое пространство","description":"REELSEE очищает речь, сокращает паузы, делает субтитры и может улучшить картинку. Файл остаётся на компьютере.","brandLabel":"REELSEE — главная","navLabel":"Главная навигация","nav":"инструменты","heroTitle":"меньше рутины.<br>больше творчества.","lead":"Загрузите ролик. Речь, паузы, субтитры и картинка обрабатываются здесь. Разбираться в нейросетях не нужно. Файл остаётся на этом компьютере.","activate":"активировать pro","seeTools":"инструменты","toolsLabel":"инструменты","planetAlt":"Тёмная планета, тёплый свет по краю","card1Title":"полная обработка","card1Body":"Очищает речь от фона, сокращает паузы до 0,15 с и пишет субтитры за один проход.","card2Title":"улучшение звука","card2Body":"Убирает комнатное эхо и возвращает ясность голоса, не меняя тембр.","card3Title":"апскейл картинки","card3Body":"Повышает чёткость и смягчает следы сжатия.","card4Title":"субтитры","card4Body":"Распознаёт речь на нескольких языках и ставит тайминг для коротких роликов и подкастов.","card5Title":"сокращение пауз","card5Body":"Находит тишину и пустые места. Вы выбираете, какую паузу сокращать.","card6Title":"файл остаётся здесь","card6Body":"Обработка идёт на этом компьютере, с видеокартой или без. Ролик никуда не отправляется.","footer":"© 2026 REELSEE","footerTag":"творческое пространство","privacyLink":"политика конфиденциальности","support":"поддержка","close":"закрыть","switchLanguage":"переключить на английский","privacyTitle":"политика конфиденциальности REELSEE","privacy1":"<strong>Дата:</strong> октябрь 2026","privacy2":"<strong>1. Локальная обработка:</strong> REELSEE — настольное приложение. Обработка аудио и видео, транскрипция, улучшение и апскейлинг выполняются на компьютере пользователя. Файлы и результаты не загружаются на удалённые серверы.","privacy3":"<strong>2. Оплата и лицензия:</strong> платежи принимает сторонняя площадка (Tribute). REELSEE не собирает и не хранит данные банковских карт.","privacy4":"<strong>3. Данные:</strong> мы не отслеживаем личные данные, историю просмотров и поведенческие метрики.","privacy5":"<strong>4. Контакт:</strong> по вопросам лицензии и возврата напишите в поддержку."},"en":{"title":"REELSEE — a creator workspace","description":"REELSEE cleans speech, shortens pauses, writes subtitles, and can improve the picture. The file stays on the computer.","brandLabel":"REELSEE — home","navLabel":"Main navigation","nav":"tools","heroTitle":"less routine.<br>more creating.","lead":"Load a video. Speech, pauses, subtitles, and the picture are handled here. You do not need to learn how the models work. The file stays on this computer.","activate":"activate pro","seeTools":"tools","toolsLabel":"tools","planetAlt":"A dark planet with a warm rim of light","card1Title":"full processing","card1Body":"Cleans background noise, shortens pauses to 0.15 s, and writes subtitles in one pass.","card2Title":"sound enhancement","card2Body":"Removes room echo and brings the voice back into focus, without changing its tone.","card3Title":"picture upscale","card3Body":"Sharpens the image and softens compression marks.","card4Title":"subtitles","card4Body":"Transcribes several languages and times the lines for short videos and podcasts.","card5Title":"pause cutting","card5Body":"Finds silence and empty stretches. You choose how long a pause must be before it is shortened.","card6Title":"the file stays here","card6Body":"Processing runs on this computer, with or without a graphics card. The video is not uploaded.","footer":"© 2026 REELSEE","footerTag":"creator workspace","privacyLink":"privacy policy","support":"support","close":"close","switchLanguage":"switch to russian","privacyTitle":"privacy policy for REELSEE","privacy1":"<strong>Effective date:</strong> October 2026","privacy2":"<strong>1. Local processing:</strong> REELSEE is a desktop application. Audio and video processing, transcription, enhancement, and upscaling all run on your computer. Files and results are not uploaded to remote servers.","privacy3":"<strong>2. Payment and license:</strong> Payments are handled by a third-party platform (Tribute). REELSEE does not collect or store card details.","privacy4":"<strong>3. Data:</strong> We do not track personal information, browsing history, or behavioral metrics.","privacy5":"<strong>4. Contact:</strong> For license or refund questions, write to support."}};
     function applySiteLanguage(lang) {
       const copy = siteCopy[lang] || siteCopy.ru;
       document.documentElement.lang = lang;
@@ -153,6 +136,10 @@
       document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
         const value = copy[el.getAttribute('data-i18n-aria')];
         if (value != null) el.setAttribute('aria-label', value);
+      });
+      document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+        const value = copy[el.getAttribute('data-i18n-alt')];
+        if (value != null) el.setAttribute('alt', value);
       });
       const button = document.getElementById('langToggle');
       if (button) {
@@ -175,30 +162,126 @@
     })();
   </script>
   <script>
-    const privacyModal = document.getElementById('privacyModal');
-    document.getElementById('privacyLink').addEventListener('click', function(event) { event.preventDefault(); privacyModal.classList.add('active'); document.getElementById('privacyClose').focus(); });
-    document.getElementById('privacyClose').addEventListener('click', function() { privacyModal.classList.remove('active'); document.getElementById('privacyLink').focus(); });
-    privacyModal.addEventListener('click', function(event) { if (event.target === privacyModal) privacyModal.classList.remove('active'); });
-    document.addEventListener('keydown', function(event) { if (event.key === 'Escape') privacyModal.classList.remove('active'); });
+    (function () {
+      const canvas = document.getElementById('constellation');
+      const hero = document.querySelector('.hero');
+      if (!canvas || !hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const context = canvas.getContext('2d');
+      if (!context) return;
+      const points = [];
+      const target = { x: -10000, y: -10000 };
+      let width = 0;
+      let height = 0;
+      let visible = true;
+      let animationFrame = 0;
+      let lastFrame = 0;
 
-    // Reveal content as it enters the viewport; keep everything visible without JS or reduced motion.
-    (function() {
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduceMotion || !('IntersectionObserver' in window)) return;
-      const targets = document.querySelectorAll('.section-heading, .card, .note');
-      if (!targets.length) return;
-      document.documentElement.classList.add('motion-ready');
-      targets.forEach(function(element) { element.classList.add('reveal-on-scroll'); });
-      const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
+      function distanceSquared(first, second) {
+        return (first.x - second.x) ** 2 + (first.y - second.y) ** 2;
+      }
+
+      function build() {
+        const bounds = hero.getBoundingClientRect();
+        const scale = Math.min(window.devicePixelRatio || 1, 2);
+        width = bounds.width;
+        height = bounds.height;
+        canvas.width = Math.round(width * scale);
+        canvas.height = Math.round(height * scale);
+        context.setTransform(scale, 0, 0, scale, 0, 0);
+        points.length = 0;
+        const stepX = width / 20;
+        const stepY = height / 20;
+        for (let x = 0; x < width; x += stepX) {
+          for (let y = 0; y < height; y += stepY) {
+            const point = {
+              x: x + Math.random() * stepX,
+              y: y + Math.random() * stepY,
+              originX: x + Math.random() * stepX,
+              originY: y + Math.random() * stepY,
+              radius: 2 + Math.random() * 2,
+              active: 0,
+              links: [],
+              phase: Math.random() * Math.PI * 2,
+            };
+            point.originX = point.x;
+            point.originY = point.y;
+            points.push(point);
           }
+        }
+        points.forEach(function (point, index) {
+          point.links = points
+            .map(function (other, otherIndex) {
+              return otherIndex === index ? null : { index: otherIndex, distance: distanceSquared(point, other) };
+            })
+            .filter(Boolean)
+            .sort(function (first, second) { return first.distance - second.distance; })
+            .slice(0, 5)
+            .map(function (entry) { return entry.index; });
         });
-      }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
-      targets.forEach(function(element) { observer.observe(element); });
+      }
+
+      function draw(timestamp) {
+        animationFrame = window.requestAnimationFrame(draw);
+        if (!visible || timestamp - lastFrame < 1000 / 60) return;
+        lastFrame = timestamp;
+        const time = timestamp * 0.001;
+        context.clearRect(0, 0, width, height);
+        for (let index = 0; index < points.length; index += 1) {
+          const point = points[index];
+          point.x += (point.originX + Math.sin(time + point.phase) * 50 - point.x) * 0.012;
+          point.y += (point.originY + Math.cos(time * 0.83 + point.phase) * 50 - point.y) * 0.012;
+          const distance = distanceSquared(target, point);
+          point.active = distance < 4000 ? 0.3 : distance < 20000 ? 0.1 : distance < 40000 ? 0.02 : 0;
+        }
+        for (let index = 0; index < points.length; index += 1) {
+          const point = points[index];
+          if (!point.active) continue;
+          for (let link = 0; link < point.links.length; link += 1) {
+            const other = points[point.links[link]];
+            context.beginPath();
+            context.moveTo(point.x, point.y);
+            context.lineTo(other.x, other.y);
+            context.strokeStyle = 'rgba(250,217,128,' + point.active + ')';
+            context.stroke();
+          }
+        }
+        for (let index = 0; index < points.length; index += 1) {
+          const point = points[index];
+          if (!point.active) continue;
+          context.beginPath();
+          context.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
+          context.fillStyle = 'rgba(250,217,128,' + (point.active * 2) + ')';
+          context.fill();
+        }
+      }
+
+      hero.addEventListener('mousemove', function (event) {
+        const bounds = hero.getBoundingClientRect();
+        target.x = event.clientX - bounds.left;
+        target.y = event.clientY - bounds.top;
+      });
+      hero.addEventListener('mouseleave', function () {
+        target.x = -10000;
+        target.y = -10000;
+      });
+      document.addEventListener('visibilitychange', function () {
+        visible = document.visibilityState === 'visible';
+      });
+      window.addEventListener('resize', build);
+      window.addEventListener('scroll', function () {
+        const bounds = hero.getBoundingClientRect();
+        visible = document.visibilityState === 'visible' && bounds.bottom > 0 && bounds.top < window.innerHeight;
+      }, { passive: true });
+      build();
+      animationFrame = window.requestAnimationFrame(draw);
     })();
+  </script>
+  <script>
+    const privacyModal = document.getElementById('privacyModal');
+    document.getElementById('privacyLink').addEventListener('click', function (event) { event.preventDefault(); privacyModal.classList.add('active'); document.getElementById('privacyClose').focus(); });
+    document.getElementById('privacyClose').addEventListener('click', function () { privacyModal.classList.remove('active'); document.getElementById('privacyLink').focus(); });
+    privacyModal.addEventListener('click', function (event) { if (event.target === privacyModal) privacyModal.classList.remove('active'); });
+    document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && privacyModal.classList.contains('active')) { privacyModal.classList.remove('active'); document.getElementById('privacyLink').focus(); } });
   </script>
 </body>
 </html>
