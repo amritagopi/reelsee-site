@@ -269,6 +269,7 @@
           if (e && processingBeam.contains(e.relatedTarget)) return;
           isHovered = false;
           isEating = true;
+          if (processingBeam) processingBeam.classList.remove('is-active');
           const current = position;
           targetPosition = Math.floor(current / itemWidth) * itemWidth;
           if (targetPosition > current) {
