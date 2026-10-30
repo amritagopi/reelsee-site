@@ -13,12 +13,12 @@
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body { margin:0; background:var(--obsidian); color:var(--paper); font:400 17px/1.6 var(--font); }
-    header, main, footer { position:relative; z-index:1; }
+    header, main, footer { position:relative; }
     a { color:inherit; }
     :focus-visible { outline:2px solid var(--gold); outline-offset:4px; }
     ::selection { background:var(--gold); color:var(--obsidian); }
     header, .hero, .tools, footer { padding-left:6%; padding-right:6%; }
-    header { position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:76px; z-index:3; }
+    header { position:absolute; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:76px; z-index:10; }
     .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
     .brand img { width:40px; height:40px; object-fit:contain; }
     .brand-name { font-size:15px; letter-spacing:.14em; }
@@ -28,17 +28,17 @@
     .lang-btn { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; padding:0; color:var(--dust); background:transparent; border:0; cursor:pointer; }
     .lang-btn:hover { color:var(--gold); }
     .lang-btn svg { width:16px; height:16px; display:block; }
-    .hero { position:relative; isolation:isolate; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr); align-items:center; gap:54px; min-height:100vh; padding-top:116px; padding-bottom:64px; background:linear-gradient(90deg,rgba(13,15,19,.95) 0%,rgba(13,15,19,.8) 46%,rgba(13,15,19,.25) 100%),linear-gradient(0deg,#0d0f13 0%,rgba(13,15,19,.6) 22%,transparent 46%),url('assets/planet-bg.png') right center/cover no-repeat; }
+    .hero { position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr); align-items:center; gap:54px; min-height:100vh; padding-top:116px; padding-bottom:64px; background:linear-gradient(90deg,rgba(13,15,19,.95) 0%,rgba(13,15,19,.8) 46%,rgba(13,15,19,.25) 100%),linear-gradient(0deg,#0d0f13 0%,rgba(13,15,19,.6) 22%,transparent 46%),url('assets/planet-bg.png') right center/cover no-repeat; }
     .constellation { position:absolute; inset:0; z-index:0; width:100%; height:100%; pointer-events:none; }
     .site-constellation { position:fixed; inset:0; z-index:2; width:100vw; height:100vh; pointer-events:none; }
-    .intro { position:relative; z-index:1; max-width:620px; }
+    .intro { position:relative; z-index:4; max-width:620px; }
     h1 { margin:0; font-size:clamp(40px,5vw,72px); font-weight:500; line-height:.96; letter-spacing:-.03em; }
     .lead { max-width:34rem; margin:24px 0 0; color:var(--dust); font-size:17px; line-height:1.55; }
     .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
-    .hero-mockup { position:relative; z-index:1; display:flex; justify-content:center; align-items:center; perspective:1000px; width:100%; }
+    .hero-mockup { position:relative; z-index:4; display:flex; justify-content:center; align-items:center; perspective:1000px; width:100%; }
     .hero-mockup::before { position:absolute; inset:-18px -26px; z-index:-1; background:radial-gradient(ellipse at center,rgba(250,217,128,.14) 0%,rgba(250,217,128,.03) 48%,transparent 72%); filter:blur(28px); content:""; pointer-events:none; }
-    .mockup-window { position:relative; width:100%; border-radius:14px; border:1px solid rgba(250,217,128,.28); background:rgba(19,21,26,.8); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 28px 70px rgba(0,0,0,.75),0 0 36px rgba(250,217,128,.08),inset 0 1px 0 rgba(255,255,255,.07); overflow:hidden; transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .35s ease; }
-    .mockup-window:hover { transform:translateY(-3px) scale(1.008); border-color:rgba(250,217,128,.45); box-shadow:0 34px 85px rgba(0,0,0,.85),0 0 50px rgba(250,217,128,.16),inset 0 1px 0 rgba(250,217,128,.25); }
+    .mockup-window { position:relative; width:100%; border-radius:14px; border:1px solid rgba(250,217,128,.28); background:rgba(19,21,26,.8); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 28px 70px rgba(0,0,0,.75),0 0 32px rgba(250,217,128,.08),inset 0 1px 0 rgba(255,255,255,.07); overflow:hidden; transition:box-shadow .4s ease,border-color .4s ease; }
+    .mockup-window:hover { border-color:rgba(250,217,128,.38); box-shadow:0 28px 70px rgba(0,0,0,.75),0 0 44px rgba(250,217,128,.13),inset 0 1px 0 rgba(255,255,255,.14); }
     .mockup-img { display:block; width:100%; height:auto; }
     .button { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 20px; border:0; background:var(--gold); color:var(--obsidian); font:500 15px/1.3 var(--font); text-decoration:none; clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%); }
     .button:hover { background:#ffe7a8; }
@@ -46,7 +46,7 @@
     .button-quiet { background:transparent; color:var(--paper); box-shadow:inset 0 0 0 1px var(--line); clip-path:none; }
     .button-quiet:hover, .button-quiet:focus-visible, .button-quiet:active { background:var(--gold); color:var(--obsidian); box-shadow:inset 0 0 0 1px var(--gold); }
     .hero > .planet { display:none; }
-    .processing-beam { position:relative; isolation:isolate; display:grid; place-items:center; min-height:180px; overflow:hidden; background:transparent; }
+    .processing-beam { position:relative; z-index:3; display:grid; place-items:center; min-height:180px; overflow:hidden; background:transparent; }
     .processing-beam::before { position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse at center,rgba(250,217,128,.06),transparent 60%); content:""; }
     .beam-track { position:relative; width:100%; height:180px; overflow:hidden; }
     .beam-track::before, .beam-track::after { position:absolute; left:0; right:0; height:1px; background:radial-gradient(ellipse at center,rgba(250,217,128,.42) 0%,rgba(250,217,128,.12) 28%,transparent 70%); content:""; z-index:4; pointer-events:none; }
