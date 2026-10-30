@@ -30,6 +30,7 @@
     .lang-btn svg { width:16px; height:16px; display:block; }
     .hero { position:relative; isolation:isolate; display:grid; grid-template-columns:minmax(0,1fr); align-items:end; min-height:100vh; padding-top:112px; padding-bottom:64px; background:linear-gradient(90deg,rgba(13,15,19,.93) 0%,rgba(13,15,19,.72) 44%,rgba(13,15,19,.12) 100%),linear-gradient(0deg,rgba(13,15,19,.48),transparent 42%),url('assets/planet-bg.png') center/cover no-repeat; }
     .constellation { position:absolute; inset:0; z-index:0; width:100%; height:100%; pointer-events:none; }
+    .site-constellation { position:fixed; inset:0; z-index:2; width:100vw; height:100vh; pointer-events:none; }
     .intro { position:relative; z-index:1; max-width:780px; }
     h1 { margin:0; font-size:clamp(44px,6.2vw,84px); font-weight:500; line-height:.96; letter-spacing:-.03em; }
     .lead { max-width:36rem; margin:28px 0 0; color:var(--dust); font-size:18px; line-height:1.55; }
@@ -40,6 +41,27 @@
     .button-quiet { background:transparent; color:var(--paper); box-shadow:inset 0 0 0 1px var(--line); clip-path:none; }
     .button-quiet:hover, .button-quiet:focus-visible, .button-quiet:active { background:var(--gold); color:var(--obsidian); box-shadow:inset 0 0 0 1px var(--gold); }
     .hero > .planet { display:none; }
+    .processing-beam { position:relative; isolation:isolate; display:grid; place-items:center; min-height:220px; overflow:hidden; background:linear-gradient(180deg,#0b0d11 0%,#101116 48%,#0d0f13 100%); }
+    .processing-beam::before { position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse at center,rgba(250,217,128,.08),transparent 57%); content:""; }
+    .beam-track { position:relative; width:100%; height:180px; overflow:hidden; }
+    .beam-core { position:absolute; z-index:5; top:50%; left:50%; width:2px; height:150px; border-radius:30px; background:linear-gradient(to bottom,transparent,rgba(250,217,128,.5),rgba(255,241,191,.82),rgba(250,217,128,.5),transparent); box-shadow:0 0 12px rgba(250,217,128,.62),0 0 28px rgba(250,217,128,.24); transform:translate(-50%,-50%); pointer-events:none; }
+    .beam-core::before,.beam-core::after { position:absolute; inset:0 auto 0 50%; width:30px; background:linear-gradient(90deg,transparent,rgba(250,217,128,.06),transparent); content:""; transform:translateX(-50%); }
+    .beam-core::after { width:72px; opacity:.35; }
+    .beam-line { position:absolute; z-index:0; top:50%; left:0; display:flex; align-items:center; gap:34px; width:max-content; transform:translateY(-50%); will-change:transform; pointer-events:none; }
+    .video-file-wrap { position:relative; flex:none; width:176px; height:108px; }
+
+    .video-file { position:absolute; inset:0; display:grid; grid-template-columns:38px auto; align-items:center; gap:10px; width:100%; height:100%; padding:12px; overflow:hidden; border:1px solid rgba(250,217,128,.5); border-radius:14px; background:linear-gradient(135deg,#26272c,#13151a); box-shadow:0 10px 32px rgba(0,0,0,.45),0 0 18px rgba(250,217,128,.12); color:var(--paper); }
+    .video-file-normal { }
+    .video-file-code { z-index:1; border:1px solid rgba(250,217,128,.35); border-radius:14px; overflow:hidden; background:transparent; box-shadow:0 0 14px rgba(250,217,128,.08); }
+    .video-file-code .file-icon, .video-file-code .file-name, .video-file-code .file-meta { visibility:hidden; }
+    .file-icon { position:relative; display:grid; place-items:center; width:36px; height:42px; border:1px solid rgba(250,217,128,.7); color:var(--gold); font:700 9px/1 var(--font); }
+    .file-icon::after { position:absolute; top:-1px; right:-1px; width:9px; height:9px; border-bottom:1px solid rgba(250,217,128,.6); border-left:1px solid rgba(250,217,128,.6); background:#202126; content:""; }
+    .file-name { display:block; color:var(--paper); font-size:11px; line-height:1.25; white-space:nowrap; }
+    .file-meta { display:block; margin-top:5px; color:var(--dust); font:10px/1.2 ui-monospace,Consolas,monospace; }
+    .ascii-content { position:absolute; inset:0; margin:0; padding:0; overflow:hidden; border-radius:14px; color:rgba(255,227,154,.72); font:8px/9px ui-monospace,Consolas,monospace; white-space:pre; word-break:break-all; pointer-events:none; }
+    .scan-effect { position:absolute; z-index:3; inset:0; border-radius:14px; background:linear-gradient(90deg,transparent,rgba(255,238,182,.5),transparent); animation:scan-flash .6s ease-out forwards; pointer-events:none; }
+    .beam-particles { position:absolute; z-index:4; inset:0; width:100%; height:100%; pointer-events:none; }
+    @keyframes scan-flash { from { opacity:1; transform:translateX(-30%); } to { opacity:0; transform:translateX(30%); } }
     .tools { max-width:980px; padding-top:8px; padding-bottom:88px; }
     .tool { display:grid; grid-template-columns:minmax(11rem,16rem) minmax(0,1fr); gap:28px; padding:22px 0; border-top:1px solid var(--line); }
     .tool:last-child { border-bottom:1px solid var(--line); }
@@ -63,11 +85,24 @@
     @media (max-width:860px) {
       .hero { grid-template-columns:1fr; min-height:100svh; gap:28px; padding-top:112px; padding-bottom:56px; background-position:58% center; }
       .intro { align-self:end; }
+      .processing-beam { min-height:170px; }
+      .beam-track { height:150px; }
+      .file-line { gap:20px; }
+      .video-file-wrap { width:142px; height:90px; }
+      .video-file { grid-template-columns:30px auto; gap:7px; padding:8px; }
+      .file-icon { width:28px; height:34px; font-size:8px; }
+      .file-name { font-size:9px; }
+      .file-meta { font-size:9px; }
+      .ascii-content { font-size:6px; line-height:7px; }
+
+      .beam-core { height:94px; }
       .tool, .tool-lead { grid-template-columns:1fr; gap:8px; }
     }
     @media (prefers-reduced-motion:reduce) {
       html { scroll-behavior:auto; }
-      .constellation { display:none; }
+      .site-constellation { display:none; }
+      .video-file-normal { display:block !important; -webkit-mask-image:none !important; mask-image:none !important; }
+      .video-file-code { display:none !important; }
     }
   </style>
 </head>
@@ -84,15 +119,23 @@
   </header>
   <main>
     <section class="hero">
-      <div class="intro">
-        <h1 data-i18n="heroTitle" data-i18n-html>меньше рутины.<br>больше творчества.</h1>
+
+      <canvas class="site-constellation" id="constellation" aria-hidden="true"></canvas>
+      <div class="intro">        <h1 data-i18n="heroTitle" data-i18n-html>меньше рутины.<br>больше творчества.</h1>
         <p class="lead" data-i18n="lead">Загрузите ролик. Речь, паузы, субтитры и картинка обрабатываются здесь. Разбираться в нейросетях не нужно. Файл остаётся на этом компьютере.</p>
         <div class="actions">
           <a class="button" href="https://web.tribute.tg" target="_blank" rel="noopener noreferrer" id="tributeLink" data-i18n="activate">активировать pro</a>
           <a class="button button-quiet" href="#tools" data-i18n="seeTools">инструменты</a>
         </div>
       </div>
-      <canvas class="constellation" id="constellation" aria-hidden="true"></canvas>
+
+    </section>
+    <section class="processing-beam" aria-hidden="true">
+      <div class="beam-track" id="beamTrack">
+        <canvas class="beam-particles" id="beamParticles"></canvas>
+        <div class="beam-line" id="beamLine"></div>
+        <div class="beam-core"></div>
+      </div>
     </section>
     <section class="tools" id="tools" data-i18n-aria="toolsLabel" aria-label="инструменты">
       <article class="tool tool-lead"><h2 data-i18n="card1Title">полная обработка</h2><p data-i18n="card1Body">Очищает речь от фона, сокращает паузы до 0,15 с и пишет субтитры за один проход.</p></article>
@@ -163,9 +206,143 @@
   </script>
   <script>
     (function () {
+      const track = document.getElementById('beamTrack');
+      const line = document.getElementById('beamLine');
+      const particleCanvas = document.getElementById('beamParticles');
+      if (!track || !line || !particleCanvas) return;
+      const context = particleCanvas.getContext('2d');
+      if (!context) return;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const files = [['MP4','summer_trip.mp4','00:42 · 1080p'],['MOV','interview_07.mov','12:18 · 4K'],['MP4','voice_take.mp4','03:06 · 720p']];
+      const chars = '01{}[]<>;:,.+-=/*_#$%';
+      const count = 24;
+      let position = 0;
+      let loopWidth = 0;
+      let lastTime = 0;
+      let particles = [];
+      let previousScan = new WeakMap();
+
+      function codeText() {
+        return Array.from({length: 12}, function () {
+          return Array.from({length: 40}, function () { return chars[Math.random() * chars.length | 0]; }).join('');
+        }).join('\n');
+      }
+      function addFile(index) {
+        const data = files[index % files.length];
+        const wrap = document.createElement('div');
+        wrap.className = 'video-file-wrap';
+        const normal = document.createElement('div');
+        normal.className = 'video-file video-file-normal';
+        const code = document.createElement('div');
+        code.className = 'video-file video-file-code';
+        [normal, code].forEach(function (card) {
+          card.innerHTML = '<span class="file-icon">' + data[0] + '</span><span><span class="file-name">' + data[1] + '</span><span class="file-meta">' + data[2] + '</span></span>';
+        });
+        const ascii = document.createElement('pre');
+        ascii.className = 'ascii-content';
+        ascii.textContent = codeText();
+        code.appendChild(ascii);
+        wrap.append(normal, code);
+        line.appendChild(wrap);
+      }
+      for (let i = 0; i < count; i += 1) addFile(i);
+
+      function resize() {
+        const scale = Math.min(window.devicePixelRatio || 1, 2);
+        particleCanvas.width = Math.round(track.clientWidth * scale);
+        particleCanvas.height = Math.round(track.clientHeight * scale);
+        context.setTransform(scale, 0, 0, scale, 0, 0);
+        loopWidth = line.scrollWidth / 2;
+      }
+      function burst(x, y) {
+        for (let i = 0; i < 42; i += 1) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 25 + Math.random() * 115;
+          particles.push({x:x,y:y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:.45+Math.random()*.55,size:1+Math.random()*2});
+        }
+      }
+      function updateClip() {
+        const scanner = track.getBoundingClientRect().left + track.clientWidth / 2;
+        line.querySelectorAll('.video-file-wrap').forEach(function (wrap) {
+          const rect = wrap.getBoundingClientRect();
+          const normal = wrap.querySelector('.video-file-normal');
+          const code = wrap.querySelector('.video-file-code');
+          const left = scanner - rect.left;
+          const previous = previousScan.get(wrap) || false;
+          const active = left > 0 && left < rect.width;
+
+          if (left <= 0) {
+            normal.style.display = '';
+            normal.style.maskImage = 'none';
+            normal.style.webkitMaskImage = 'none';
+            code.style.display = 'none';
+          } else if (left >= rect.width) {
+            normal.style.display = 'none';
+            code.style.display = '';
+            code.style.maskImage = 'none';
+            code.style.webkitMaskImage = 'none';
+          } else {
+            const revealed = (left / rect.width * 100);
+            const fade = 10;
+            const p1 = Math.max(0, revealed - fade).toFixed(2);
+            const p2 = Math.min(100, revealed + fade).toFixed(2);
+
+            normal.style.display = '';
+            const normalMask = 'linear-gradient(to right, transparent 0%, transparent ' + p1 + '%, #000 ' + p2 + '%, #000 100%)';
+            normal.style.maskImage = normalMask;
+            normal.style.webkitMaskImage = normalMask;
+
+            code.style.display = '';
+            const codeMask = 'linear-gradient(to right, #000 0%, #000 ' + p1 + '%, transparent ' + p2 + '%, transparent 100%)';
+            code.style.maskImage = codeMask;
+            code.style.webkitMaskImage = codeMask;
+          }
+
+          if (active && !previous) {
+            const flash = document.createElement('span');
+            flash.className = 'scan-effect';
+            wrap.appendChild(flash);
+            window.setTimeout(function () { flash.remove(); }, 650);
+            burst(track.clientWidth / 2, track.clientHeight / 2);
+          }
+          previousScan.set(wrap, active);
+        });
+      }
+      function animate(timestamp) {
+        requestAnimationFrame(animate);
+        if (!lastTime) lastTime = timestamp;
+        const dt = Math.min((timestamp - lastTime) / 1000, .05);
+        lastTime = timestamp;
+        if (!reduceMotion && loopWidth) {
+          position -= 75 * dt;
+          if (position <= -loopWidth) position += loopWidth;
+          line.style.transform = 'translate(' + position + 'px,-50%)';
+        }
+        updateClip();
+        context.clearRect(0, 0, track.clientWidth, track.clientHeight);
+        particles = particles.filter(function (p) { return p.life > 0; });
+        particles.forEach(function (p) {
+          p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .98; p.vy *= .98; p.life -= dt * 1.3;
+          context.globalAlpha = Math.max(0, p.life);
+          context.fillStyle = '#fad980';
+          context.shadowColor = '#fad980'; context.shadowBlur = 8;
+          context.fillRect(p.x, p.y, p.size, p.size);
+        });
+        context.globalAlpha = 1; context.shadowBlur = 0;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      setInterval(function () {
+        line.querySelectorAll('.ascii-content').forEach(function (node) { node.textContent = codeText(); });
+      }, 240);
+      requestAnimationFrame(animate);
+    })();
+  </script>
+  <script>
+    (function () {
       const canvas = document.getElementById('constellation');
-      const hero = document.querySelector('.hero');
-      if (!canvas || !hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const surface = document.documentElement;
+      if (!canvas || !surface || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const context = canvas.getContext('2d');
       if (!context) return;
       const points = [];
@@ -181,10 +358,9 @@
       }
 
       function build() {
-        const bounds = hero.getBoundingClientRect();
         const scale = Math.min(window.devicePixelRatio || 1, 2);
-        width = bounds.width;
-        height = bounds.height;
+        width = window.innerWidth;
+        height = window.innerHeight;
         canvas.width = Math.round(width * scale);
         canvas.height = Math.round(height * scale);
         context.setTransform(scale, 0, 0, scale, 0, 0);
@@ -255,12 +431,11 @@
         }
       }
 
-      hero.addEventListener('mousemove', function (event) {
-        const bounds = hero.getBoundingClientRect();
-        target.x = event.clientX - bounds.left;
-        target.y = event.clientY - bounds.top;
+      surface.addEventListener('mousemove', function (event) {
+        target.x = event.clientX;
+        target.y = event.clientY;
       });
-      hero.addEventListener('mouseleave', function () {
+      surface.addEventListener('mouseleave', function () {
         target.x = -10000;
         target.y = -10000;
       });
@@ -269,8 +444,7 @@
       });
       window.addEventListener('resize', build);
       window.addEventListener('scroll', function () {
-        const bounds = hero.getBoundingClientRect();
-        visible = document.visibilityState === 'visible' && bounds.bottom > 0 && bounds.top < window.innerHeight;
+        visible = document.visibilityState === 'visible';
       }, { passive: true });
       build();
       animationFrame = window.requestAnimationFrame(draw);
