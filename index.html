@@ -269,6 +269,7 @@
           if (e && processingBeam.contains(e.relatedTarget)) return;
           isHovered = false;
           isEating = true;
+<<<<<<< HEAD
 
           const scanner = track.getBoundingClientRect().left + track.clientWidth / 2;
           let foundRemaining = 0;
@@ -282,6 +283,14 @@
           });
 
           targetPosition = position - foundRemaining;
+=======
+          if (processingBeam) processingBeam.classList.remove('is-active');
+          const current = position;
+          targetPosition = Math.floor(current / itemWidth) * itemWidth;
+          if (targetPosition > current) {
+            targetPosition -= itemWidth;
+          }
+>>>>>>> 8fff492feff0df1fec1e675065f58a045ce5b4d4
         });
       }
 
