@@ -269,11 +269,19 @@
           if (e && processingBeam.contains(e.relatedTarget)) return;
           isHovered = false;
           isEating = true;
-          const current = position;
-          targetPosition = Math.floor(current / itemWidth) * itemWidth;
-          if (targetPosition > current) {
-            targetPosition -= itemWidth;
-          }
+
+          const scanner = track.getBoundingClientRect().left + track.clientWidth / 2;
+          let foundRemaining = 0;
+
+          line.querySelectorAll('.video-file-wrap').forEach(function (wrap) {
+            const rect = wrap.getBoundingClientRect();
+            const left = scanner - rect.left;
+            if (left > 0 && left < rect.width) {
+              foundRemaining = rect.width - left;
+            }
+          });
+
+          targetPosition = position - foundRemaining;
         });
       }
 
