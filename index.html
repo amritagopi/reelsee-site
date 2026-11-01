@@ -750,6 +750,10 @@
       }
 
       function build() {
+        if (animationFrame) {
+          window.cancelAnimationFrame(animationFrame);
+          animationFrame = 0;
+        }
         const scale = Math.min(window.devicePixelRatio || 1, 2);
         width = window.innerWidth;
         height = window.innerHeight;
@@ -757,8 +761,10 @@
         canvas.height = Math.round(height * scale);
         context.setTransform(scale, 0, 0, scale, 0, 0);
         points.length = 0;
-        const stepX = width / 20;
-        const stepY = height / 20;
+        const cols = Math.round(20 * Math.min(width / 1280, 1));
+        const rows = Math.round(20 * Math.min(height / 800, 1));
+        const stepX = width / Math.max(cols, 4);
+        const stepY = height / Math.max(rows, 4);
         for (let x = 0; x < width; x += stepX) {
           for (let y = 0; y < height; y += stepY) {
             const point = {
@@ -786,6 +792,7 @@
             .slice(0, 5)
             .map(function (entry) { return entry.index; });
         });
+        animationFrame = window.requestAnimationFrame(draw);
       }
 
       function draw(timestamp) {
@@ -839,7 +846,6 @@
         visible = document.visibilityState === 'visible';
       }, { passive: true });
       build();
-      animationFrame = window.requestAnimationFrame(draw);
     })();
   </script>
   <script>
