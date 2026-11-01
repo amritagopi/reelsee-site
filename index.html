@@ -37,9 +37,9 @@
     .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
     .hero-mockup { position:relative; z-index:4; display:flex; justify-content:center; align-items:center; perspective:1000px; isolation:isolate; width:100%; }
     .hero-mockup::before { content:none; }
-    .mockup-window { position:relative; width:100%; border-radius:14px; background:transparent; transform:scale(1); transition:transform 1.4s cubic-bezier(.22,1,.36,1); }
+    .mockup-window { position:relative; width:100%; border-radius:14px; background:transparent; transform:translate3d(0,0,0) scale(1); transform-origin:50% 50%; transition:transform 2.4s cubic-bezier(.16,1,.3,1); will-change:transform; backface-visibility:hidden; }
     .mockup-window::before { content:none; }
-    .hero-mockup:hover .mockup-window { transform:translateX(-24px) scale(1.3); }
+    .hero-mockup:hover .mockup-window { transform:translate3d(-24px,0,0) scale(1.3); }
     .mockup-img { display:block; width:100%; height:auto; }
     .monitor-mockup { display:block; width:100%; height:auto; }
     .button { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 20px; border:0; background:var(--gold); color:var(--obsidian); font:500 15px/1.3 var(--font); text-decoration:none; clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%); }
@@ -48,15 +48,36 @@
     .button-quiet { background:transparent; color:var(--paper); box-shadow:inset 0 0 0 1px var(--line); clip-path:none; }
     .button-quiet:hover, .button-quiet:focus-visible, .button-quiet:active { background:var(--gold); color:var(--obsidian); box-shadow:inset 0 0 0 1px var(--gold); }
     .hero > .planet { display:none; }
-    .tools { max-width:980px; padding-top:8px; padding-bottom:88px; }
-    .tool { display:grid; grid-template-columns:minmax(11rem,16rem) minmax(0,1fr); gap:28px; padding:22px 0; border-top:1px solid var(--line); }
-    .tool:last-child { border-bottom:1px solid var(--line); }
-    .tool h2, .tool h3 { margin:0; font-weight:500; }
-    .tool h2 { font-size:clamp(28px,3vw,40px); letter-spacing:-.02em; }
-    .tool h3 { font-size:18px; }
-    .tool p { margin:0; max-width:62ch; color:var(--dust); }
-    .tool-lead { grid-template-columns:1fr; gap:12px; padding-top:4px; padding-bottom:34px; border-top:0; }
-    .tool-lead p { font-size:18px; }
+    .tools { position:relative; z-index:4; max-width:1100px; margin:0 auto; padding-top:48px; padding-bottom:120px; }
+    .tools-header { text-align:center; max-width:680px; margin:0 auto 48px; }
+    .tools-title { margin:0; font-size:clamp(32px,4vw,48px); font-weight:500; letter-spacing:-.02em; }
+    .tools-desc { margin:14px 0 0; color:var(--dust); font-size:16px; }
+
+    /* 3D Carousel Section with warm golden aura */
+    .carousel-wrap { position:relative; display:flex; justify-content:center; align-items:center; width:100%; min-height:460px; perspective:900px; transform-style:preserve-3d; }
+    .carousel-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(580px,90vw); height:320px; border-radius:50%; background:radial-gradient(circle,rgba(250,217,128,.16) 0%,rgba(250,217,128,.04) 48%,transparent 72%); filter:blur(44px); pointer-events:none; z-index:0; will-change:transform; transition:transform .4s cubic-bezier(.16,1,.3,1); }
+
+    .carousel { position:relative; width:min(440px,84vw); height:380px; transform-style:preserve-3d; z-index:1; }
+    .card-container { position:absolute; inset:0; width:100%; height:100%; transform:rotateY(calc(var(--offset) * 44deg)) scaleY(calc(1 + var(--abs-offset) * -0.22)) translateZ(calc(var(--abs-offset) * -22rem)) translateX(calc(var(--direction) * -5.2rem)); filter:blur(calc(var(--abs-offset) * .85rem)); transition:transform .45s cubic-bezier(.16,1,.3,1),filter .45s ease-out,opacity .45s ease-out; cursor:pointer; }
+    .card-container[style*="--active: 1"], .card-container[style*="--active:1"] { cursor:default; }
+    .carousel-card { position:relative; width:100%; height:100%; padding:34px 30px; background:#12151c; border:none; border-radius:18px; color:var(--paper); display:flex; flex-direction:column; justify-content:flex-start; text-align:left; user-select:none; box-sizing:border-box; overflow:hidden; }
+    .card-icon { display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; margin-bottom:20px; color:var(--gold); }
+    .card-icon svg { width:32px; height:32px; display:block; }
+    .carousel-card h3 { margin:0 0 14px; font-size:24px; font-weight:500; letter-spacing:-.01em; color:var(--gold); }
+    .carousel-card p { margin:0; font-size:15px; line-height:1.6; color:var(--dust); }
+    .carousel-card .card-badge { display:inline-flex; align-items:center; gap:6px; margin-top:auto; padding-top:16px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--gold); opacity:.8; }
+    .carousel-card .card-badge::before { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+    .carousel-nav { position:absolute; top:50%; z-index:3; display:flex; align-items:center; justify-content:center; width:46px; height:46px; padding:0; background:rgba(18,21,28,.7); border:none; border-radius:50%; color:var(--dust); cursor:pointer; transform:translateY(-50%); transition:color .2s,background .2s,transform .2s; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+    .carousel-nav:hover { color:var(--gold); background:#171b24; transform:translateY(-50%) scale(1.08); }
+    .carousel-nav svg { width:22px; height:22px; }
+    .carousel-nav.left { left:clamp(4px,4vw,32px); }
+    .carousel-nav.right { right:clamp(4px,4vw,32px); }
+
+    .carousel-dots { display:flex; justify-content:center; gap:8px; margin-top:28px; }
+    .carousel-dot { width:8px; height:8px; padding:0; border-radius:50%; border:none; background:var(--line); cursor:pointer; transition:background .3s,transform .3s; }
+    .carousel-dot.active { background:var(--gold); transform:scale(1.3); }
+
     footer { display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px 28px; padding-top:22px; padding-bottom:28px; border-top:1px solid var(--line); color:var(--dust); font-size:14px; }
     .footer-links { display:flex; flex-wrap:wrap; gap:20px; }
     .footer-links a { text-decoration:none; }
@@ -72,16 +93,23 @@
       .hero { grid-template-columns:1fr; gap:40px; padding-top:104px; padding-bottom:52px; background-position:center; }
       .intro { max-width:100%; }
       .hero-mockup { max-width:720px; margin:0 auto; }
+      .mockup-window { transform:none; transition:none; will-change:auto; backface-visibility:visible; }
+      .hero-mockup:hover .mockup-window { transform:none; }
     }
     @media (max-width:860px) {
       .hero { grid-template-columns:1fr; min-height:100svh; gap:28px; padding-top:112px; padding-bottom:56px; background-position:58% center; }
       .intro { align-self:auto; }
-
-      .tool, .tool-lead { grid-template-columns:1fr; gap:8px; }
+      .carousel-wrap { min-height:430px; perspective:750px; }
+      .carousel { width:min(340px,88vw); height:370px; }
+      .card-container { transform:rotateY(calc(var(--offset) * 36deg)) scaleY(calc(1 + var(--abs-offset) * -0.16)) translateZ(calc(var(--abs-offset) * -16rem)) translateX(calc(var(--direction) * -3.4rem)); filter:blur(calc(var(--abs-offset) * .65rem)); }
+      .carousel-card { padding:28px 22px; }
+      .carousel-nav.left { left:-6px; }
+      .carousel-nav.right { right:-6px; }
     }
     @media (prefers-reduced-motion:reduce) {
       html { scroll-behavior:auto; }
       .site-constellation { display:none; }
+      .card-container { transition:opacity .25s ease-out; filter:none !important; }
     }
   </style>
 </head>
@@ -111,18 +139,116 @@
 
       <div class="hero-mockup">
         <div class="mockup-window">
-          <img src="assets/app-preview.png" alt="Интерфейс приложения REELSEE" class="mockup-img" width="1392" height="768" loading="eager" data-i18n-src="appPreviewSrc" data-i18n-alt="appPreviewAlt">
+          <img src="assets/app-preview.png" alt="Интерфейс приложения REELSEE" class="mockup-img" width="1364" height="929" loading="eager" data-i18n-src="appPreviewSrc" data-i18n-alt="appPreviewAlt">
         </div>
       </div>
 
     </section>
     <section class="tools" id="tools" data-i18n-aria="toolsLabel" aria-label="инструменты">
-      <article class="tool tool-lead"><h2 data-i18n="card1Title">полная обработка</h2><p data-i18n="card1Body">Очищает речь от фона, сокращает паузы до 0,15 с и пишет субтитры за один проход.</p></article>
-      <article class="tool"><h3 data-i18n="card2Title">улучшение звука</h3><p data-i18n="card2Body">Убирает комнатное эхо и возвращает ясность голоса, не меняя тембр.</p></article>
-      <article class="tool"><h3 data-i18n="card3Title">апскейл картинки</h3><p data-i18n="card3Body">Повышает чёткость и смягчает следы сжатия.</p></article>
-      <article class="tool"><h3 data-i18n="card4Title">субтитры</h3><p data-i18n="card4Body">Распознаёт речь на нескольких языках и ставит тайминг для коротких роликов и подкастов.</p></article>
-      <article class="tool"><h3 data-i18n="card5Title">сокращение пауз</h3><p data-i18n="card5Body">Находит тишину и пустые места. Вы выбираете, какую паузу сокращать.</p></article>
-      <article class="tool"><h3 data-i18n="card6Title">файл остаётся здесь</h3><p data-i18n="card6Body">Обработка идёт на этом компьютере, с видеокартой или без. Ролик никуда не отправляется.</p></article>
+      <div class="tools-header">
+        <h2 class="tools-title" data-i18n="toolsTitle">инструменты монтажа</h2>
+        <p class="tools-desc" data-i18n="toolsDesc">Полный цикл подготовки вашего видео: от первого черновика до публикации</p>
+      </div>
+
+      <div class="carousel-wrap">
+        <div class="carousel-glow" aria-hidden="true"></div>
+
+        <button type="button" class="carousel-nav left" id="carouselPrev" aria-label="Предыдущий инструмент" data-i18n-aria="carouselPrev">
+          <svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false"><path d="M10.354 3.646a.5.5 0 0 1 0 .708L6.707 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/></svg>
+        </button>
+
+        <div class="carousel" id="toolsCarousel" role="region" aria-roledescription="carousel" aria-label="Инструменты REELSEE">
+          <!-- Card 1: Полная обработка (IconGraph) -->
+          <div class="card-container" data-card-index="0">
+            <article class="carousel-card">
+              <div class="card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" focusable="false"><path d="M13.6344625 10.5061375c-0.56689375 -0.00043125 -1.1117125 0.2197375 -1.5191375 0.61391875l-2.2144875 -1.72273125c0.18911875 -0.32985625 0.288475 -0.703525 0.2881625 -1.08375 -0.00003125 -0.1313 -0.011825 -0.2623375 -0.0352375 -0.39153125l1.52305 -0.505075c0.75871875 1.51241875 2.87015625 1.63634375 3.8005875 0.22306875 0.9304375 -1.413275 -0.0179625 -3.3038 -1.7071125 -3.4029375 -1.4211625 -0.0834125 -2.5455 1.185525 -2.2915875 2.5863125l-1.52461875 0.50741875c-0.37145625 -0.74084375 -1.1288875 -1.2089375 -1.95764375 -1.209825 -0.20126875 -0.00009375 -0.4015625 0.02784375 -0.595125 0.08300625l-0.74390625 -1.6734c1.42803125 -0.89973125 1.34655625 -3.00795625 -0.14665 -3.7948C5.01754375 -0.051025 3.23250625 1.07364375 3.2976875 2.76021875c0.04551875 1.1778875 1.0142 2.1089875 2.1929625 2.10789375 0.20126875 0.0001 0.4015625 -0.0278375 0.595125 -0.08300625l0.74390625 1.6734c-1.04166875 0.65330625 -1.3409 2.036275 -0.66246875 3.0617625L3.76791875 11.6501875c-1.28906875 -1.0895375 -3.27419375 -0.37504375 -3.57323125 1.28609375 -0.29903125 1.6611375 1.31230625 3.02305625 2.9004125 2.4514625 1.33468125 -0.4803875 1.8688125 -2.08253125 1.08940625 -3.267725l2.3961625 -2.12991875c0.85699375 0.725525 2.12424375 0.68389375 2.93176875 -0.0963125l2.21449375 1.722725c-0.83306875 1.467925 0.23533125 3.28719375 1.923125 3.27469375 1.6877875 -0.0125 2.729125 -1.84740625 1.8744 -3.30281875 -0.393625 -0.6702625 -1.1127 -1.08201875 -1.88999375 -1.08225Zm0 -5.638025c1.20559375 0 1.95909375 1.3051 1.35629375 2.349175 -0.60279375 1.04408125 -2.10979375 1.04408125 -2.71259375 0 -0.13745625 -0.238075 -0.20981875 -0.50814375 -0.20981875 -0.78305625 0 -0.86496875 0.70115 -1.56615625 1.56611875 -1.56611875ZM3.92453125 2.67555c0 -1.2056 1.3051 -1.9591 2.349175 -1.3563 1.04408125 0.6028 1.04408125 2.1098 0 2.71259375 -0.23805625 0.13744375 -0.50816875 0.2098125 -0.78305625 0.209825 -0.86496875 0.0000375 -1.56611875 -0.70115 -1.56611875 -1.56611875ZM2.3584125 14.89126875c-1.20559375 0 -1.95909375 -1.3051 -1.35629375 -2.34918125 0.60279375 -1.044075 2.10979375 -1.044075 2.71259375 0 0.13745625 0.23808125 0.20981875 0.50815 0.20981875 0.7830625 0 0.86494375 -0.701175 1.56611875 -1.56611875 1.56611875Zm5.638025 -5.01158125c-1.2056 0 -1.95909375 -1.30509375 -1.3563 -2.349175 0.6028 -1.044075 2.1098 -1.044075 2.7126 0 0.13745 0.23808125 0.20981875 0.50815 0.20981875 0.7830625 0 0.8649375 -0.701175 1.5661125 -1.56611875 1.5661125Zm5.638025 4.38513125c-1.2056 0 -1.9591 -1.3051 -1.3563 -2.349175 0.6028 -1.04408125 2.10979375 -1.04408125 2.71259375 0 0.13745625 0.23808125 0.20981875 0.50814375 0.20981875 0.78305625 0 0.86494375 -0.70116875 1.56611875 -1.5661125 1.56611875Z" stroke-width="0.0625"/></svg>
+              </div>
+              <h3 data-i18n="card1Title">полная обработка</h3>
+              <p data-i18n="card1Body">Очищает голос от шума, сокращает паузы до 0,15 с и расставляет субтитры за один проход. Идеально для быстрых шортсов и рилс.</p>
+              <div class="card-badge" data-i18n="card1Badge">1 клик • полный цикл</div>
+            </article>
+          </div>
+
+          <!-- Card 2: Чистый звук (IconWaveform) -->
+          <div class="card-container" data-card-index="1">
+            <article class="carousel-card">
+              <div class="card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" focusable="false"><path d="M2.0416 5.4912v5.0176c0 0.2414125 -0.26133125 0.3922875 -0.4704 0.2715875 -0.09703125 -0.05601875 -0.1568 -0.15955 -0.1568 -0.2715875V5.4912c0 -0.2414125 0.26133125 -0.3922875 0.4704 -0.2715875 0.09703125 0.05601875 0.1568 0.15955 0.1568 0.2715875ZM4.864 0.16c-0.17319375 0 -0.3136 0.14040625 -0.3136 0.3136v15.0528c0 0.2414125 0.26133125 0.3922875 0.4704 0.2715875 0.09703125 -0.05601875 0.1568 -0.15955 0.1568 -0.2715875V0.4736c0 -0.17319375 -0.14040625 -0.3136 -0.3136 -0.3136ZM8 2.6688c-0.1732 -0.00000625 -0.3136 0.1404 -0.3136 0.3136v10.0352c0 0.2414125 0.26133125 0.3922875 0.4704 0.2715875 0.09703125 -0.05601875 0.1568 -0.15955 0.1568 -0.2715875V2.9824c0 -0.17319375 -0.14040625 -0.31359375 -0.3136 -0.3136Zm3.136 2.5088c-0.17319375 0 -0.3136 0.14040625 -0.3136 0.3136v5.0176c0 0.2414125 0.26133125 0.3922875 0.4704 0.2715875 0.09703125 -0.05601875 0.1568 -0.15955 0.1568 -0.2715875V5.4912c0 -0.17319375 -0.14040625 -0.3136 -0.3136 -0.3136Zm3.136 -1.2544c-0.17319375 0 -0.3136 0.14040625 -0.3136 0.3136v7.5264c0 0.2414125 0.26133125 0.3922875 0.4704 0.2715875 0.09703125 -0.05601875 0.1568 -0.15955 0.1568 -0.2715875V4.2368c0 -0.17319375 -0.14040625 -0.31359375 -0.3136 -0.3136Z" stroke-width="0.0625"/></svg>
+              </div>
+              <h3 data-i18n="card2Title">чистый голос</h3>
+              <p data-i18n="card2Body">Локальная нейросеть Resemble Enhance убирает комнатное эхо и фоновый гул, возвращая ясность речи без металлического роботизированного звона.</p>
+              <div class="card-badge" data-i18n="card2Badge">Resemble Enhance • Студийный звук</div>
+            </article>
+          </div>
+
+          <!-- Card 3: Паузы и маркеры (IconArrowsInLine) -->
+          <div class="card-container" data-card-index="2">
+            <article class="carousel-card">
+              <div class="card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" focusable="false"><path d="M8.25 2.5v11a0.25 0.25 0 0 1 -0.5 0V2.5a0.25 0.25 0 0 1 0.5 0ZM4.176875 5.823125a0.25 0.25 0 0 0 -0.35375 0.35375L5.39625 7.75H1a0.25 0.25 0 0 0 0 0.5h4.39625l-1.573125 1.573125a0.25 0.25 0 0 0 0.35375 0.35375l2 -2a0.25 0.25 0 0 0 0 -0.35375ZM15 7.75h-4.39625l1.573125 -1.573125a0.25 0.25 0 1 0 -0.35375 -0.35375l-2 2a0.25 0.25 0 0 0 0 0.35375l2 2a0.25 0.25 0 0 0 0.35375 -0.35375L10.60375 8.25H15a0.25 0.25 0 0 0 0 -0.5Z" stroke-width="0.0625"/></svg>
+              </div>
+              <h3 data-i18n="card3Title">умные паузы и маркеры</h3>
+              <p data-i18n="card3Body">Silero VAD находит лишнюю тишину и аккуратно сжимает её, оставляя мягкие отступы у слов. В файл сразу вшиваются XMP-маркеры для Premiere Pro и DaVinci.</p>
+              <div class="card-badge" data-i18n="card3Badge">Silero VAD • XMP Markers</div>
+            </article>
+          </div>
+
+          <!-- Card 4: Субтитры SRT (IconClosedCaptioning) -->
+          <div class="card-container" data-card-index="3">
+            <article class="carousel-card">
+              <div class="card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" focusable="false"><path d="M14.9688875 2.4829625H1.0311125C0.54999375 2.48294375 0.16 2.87295625 0.16 3.354075v9.29185c0 0.4811 0.3900125 0.8711125 0.8711125 0.8711125h13.937775c0.4811 0 0.8711125 -0.3900125 0.8711125 -0.8711125V3.354075c0 -0.4811 -0.3900125 -0.8711125 -0.8711125 -0.8711125Zm0.290375 10.1629625c0 0.16036875 -0.13000625 0.290375 -0.290375 0.290375H1.0311125c-0.16036875 0 -0.29036875 -0.13000625 -0.29036875 -0.290375V3.354075c0 -0.160375 0.12999375 -0.29038125 0.29036875 -0.29036875h13.937775c0.1603625 0.00000625 0.290375 0.13000625 0.290375 0.29036875ZM7.0896875 9.86635625c0.080525 0.1389 0.03305 0.31678125 -0.10598125 0.39708125 -1.7424 1.005575 -3.91995625 -0.25214375 -3.9196125 -2.2638875 0.00034375 -2.01134375 2.1775625 -3.2683625 3.9196125 -2.2629875 0.18863125 0.11991875 0.1767125 0.399075 -0.0214625 0.50248125 -0.08425625 0.0439625 -0.1847 0.0439125 -0.2689125 -0.0001375 -1.35569375 -0.78125625 -3.048725 0.19804375 -3.0474625 1.76273125 0.00125625 1.5632375 1.6930375 2.53998125 3.0474625 1.75945625 0.13855 -0.08015 0.31583125 -0.03306875 0.39635625 0.1052625Zm5.80740625 0c0.080525 0.1389 0.03305 0.31678125 -0.10598125 0.39708125 -1.7424 1.005575 -3.91995625 -0.25214375 -3.9196125 -2.2638875 0.00034375 -2.01134375 2.1775625 -3.2683625 3.9196125 -2.2629875 0.18863125 0.11991875 0.1767125 0.399075 -0.0214625 0.50248125 -0.08425625 0.0439625 -0.1847 0.0439125 -0.2689125 -0.0001375 -1.35569375 -0.78125625 -3.048725 0.19804375 -3.0474625 1.76273125 0.00125625 1.5632375 1.6930375 2.53998125 3.0474625 1.75945625 0.13855 -0.08015 0.31583125 -0.03306875 0.39635625 0.1052625Z" stroke-width="0.0625"/></svg>
+              </div>
+              <h3 data-i18n="card4Title">пословные субтитры</h3>
+              <p data-i18n="card4Body">Точное мультиязычное распознавание на базе Whisper large-v3-turbo. Экспорт в форматы .srt и .vtt с миллисекундной привязкой к таймлайну.</p>
+              <div class="card-badge" data-i18n="card4Badge">Whisper v3 • SRT / VTT</div>
+            </article>
+          </div>
+
+          <!-- Card 5: Транскрипт текстом (IconTextAa) -->
+          <div class="card-container" data-card-index="4">
+            <article class="carousel-card">
+              <div class="card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" focusable="false"><path d="M5.17193125 3.11789375c-0.0917125 -0.19509375 -0.360225 -0.21775 -0.483325 -0.04078125 -0.00898125 0.0129125 -0.01685625 0.02655 -0.02355 0.04078125L0.1844375 12.6392125c-0.0879625 0.19680625 0.07010625 0.4150375 0.28453125 0.39281875 0.0958 -0.00993125 0.179775 -0.06839375 0.22234375 -0.1547875l1.24196875 -2.6393625h5.970425l1.24196875 2.6393625c0.08796875 0.19680625 0.356 0.2245875 0.48245625 0.05 0.06089375 -0.08406875 0.0702875 -0.19491875 0.0244125 -0.2880375ZM2.19721875 9.6778l2.721275 -5.78349375 2.721275 5.78349375Zm11.12243125 -3.3604625c-0.8170125 0 -1.4485 0.21563125 -1.87765625 0.6412875 -0.15305625 0.15198125 -0.08419375 0.41265625 0.12395 0.46921875 0.0966 0.02625 0.19986875 -0.00103125 0.27090625 -0.0715625 0.31994375 -0.31784375 0.8191125 -0.47886875 1.4828 -0.47886875 1.08095 0 1.960275 0.75400625 1.960275 1.6802375v0.8345125c-0.50754375 -0.540675 -1.21875625 -0.84344375 -1.960275 -0.83451875 -1.3896875 0 -2.52034375 1.00464375 -2.52034375 2.2403125s1.13065625 2.24030625 2.52034375 2.24030625c0.74151875 0.00893125 1.45273125 -0.2938375 1.960275 -0.8345125v0.554475c0 0.215575 0.2333625 0.35030625 0.42005625 0.24251875 0.08664375 -0.05001875 0.14001875 -0.14246875 0.14001875 -0.24251875v-4.20058125c0 -1.23496875 -1.13065625 -2.24030625 -2.52035 -2.24030625Zm0 6.16085c-1.08095 0 -1.96026875 -0.75400625 -1.96026875 -1.68023125s0.87931875 -1.68023125 1.96026875 -1.68023125 1.960275 0.754 1.960275 1.68023125 -0.879325 1.68023125 -1.960275 1.68023125Z" stroke-width="0.0625"/></svg>
+              </div>
+              <h3 data-i18n="card5Title">транскрипт текстом</h3>
+              <p data-i18n="card5Body">Экспорт расшифровки в чистый текстовый файл (.txt) без таймкодов и тегов. Готово для постов, сценариев, заметок или отправки в языковые модели.</p>
+              <div class="card-badge" data-i18n="card5Badge">Чистый текст • Без таймкодов</div>
+            </article>
+          </div>
+
+          <!-- Card 6: Апскейл и выбор моделей (IconShootingStar) -->
+          <div class="card-container" data-card-index="5">
+            <article class="carousel-card">
+              <div class="card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" focusable="false"><path d="M15.80650625 3.88378125c-0.085675 -0.2650125 -0.32325 -0.4518 -0.601 -0.47251875l-2.85763125 -0.2257375 -1.09965 -2.60649375c-0.20880625 -0.48863125 -0.86826875 -0.5679875 -1.18703125 -0.14284375 -0.0331 0.04415 -0.0607875 0.09210625 -0.08246875 0.14284375l-1.100375 2.60649375 -2.85690625 0.2257375c-0.52333125 0.03745625 -0.8098625 0.62739375 -0.51575625 1.06188125 0.03479375 0.0514 0.07644375 0.09780625 0.1238 0.13793125l2.177525 1.83493125 -0.66341875 2.74295c-0.0667125 0.26686875 0.0363 0.54740625 0.25985 0.70769375 0.22498125 0.16543125 0.527425 0.179175 0.7664875 0.03484375l2.44318125 -1.47345625 2.4475375 1.47345625c0.2390625 0.14433125 0.5415 0.1305875 0.7664875 -0.03484375 0.22355 -0.1602875 0.32655625 -0.440825 0.25985 -0.70769375l-0.66414375 -2.74295 2.17389375 -1.83493125c0.21135625 -0.1771875 0.2943 -0.4647625 0.20976875 -0.7272875Zm-0.5843 0.28380625L12.911125 6.117925c-0.08416875 0.07093125 -0.1209875 0.18335625 -0.0950875 0.29033125l0.70624375 2.91715625c0.0110875 0.039075 -0.00449375 0.08081875 -0.03846875 0.10306875 -0.03625 0.02745 -0.08574375 0.029475 -0.12411875 0.00508125l-2.59633125 -1.56273125c-0.0922 -0.055575 -0.207575 -0.055575 -0.299775 0l-2.59705625 1.56273125c-0.03809375 0.02448125 -0.08744375 0.02245 -0.12339375 -0.00508125 -0.03386875 -0.02235 -0.04965625 -0.06385625 -0.03919375 -0.10306875l0.7062375 -2.91715625c0.02590625 -0.106975 -0.0109125 -0.2194 -0.09508125 -0.29033125L6.00474375 4.1675875c-0.0326125 -0.02458125 -0.0455375 -0.0674625 -0.03193125 -0.105975 0.0125 -0.0420125 0.0505375 -0.071275 0.09435625 -0.07258125l3.0332875 -0.239525c0.1084125 -0.00878125 0.20281875 -0.07741875 0.2446125 -0.17783125l1.16860625 -2.7690875c0.03486875 -0.076825 0.13983125 -0.0871 0.18893125 -0.01848125 0.00415 0.00579375 0.007725 0.0119875 0.010675 0.01848125l1.1686 2.7690875c0.0422125 0.09984375 0.1365375 0.1678625 0.2446125 0.176375l3.0332875 0.23953125c0.043625 0.00139375 0.08140625 0.03068125 0.09363125 0.07258125 0.015 0.03875 0.00221875 0.08274375 -0.03120625 0.107425Z" stroke-width="0.0625"/></svg>
+              </div>
+              <h3 data-i18n="card6Title">апскейл и выбор моделей</h3>
+              <p data-i18n="card6Body">Повышение разрешения на Vulkan без мерцания. Выбор модели в настройках: от динамичных разговорных влогов до фотореалистичных портретов.</p>
+              <div class="card-badge" data-i18n="card6Badge">Real-ESRGAN • Vulkan</div>
+            </article>
+          </div>
+
+          <!-- Card 7: Локальная обработка (IconFolderOpen) -->
+          <div class="card-container" data-card-index="6">
+            <article class="carousel-card">
+              <div class="card-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" focusable="false"><path d="M15.67474375 6.62071875c-0.16241875 -0.22864375 -0.42588125 -0.36403125 -0.7063375 -0.36296875h-1.45115v-1.451875c0 -0.48109375 -0.39003125 -0.87110625 -0.871125 -0.871125h-5.13020625L5.425225 2.366725c-0.15090625 -0.1128625 -0.33423125 -0.17396875 -0.522675 -0.174225H1.031125c-0.48110625 0 -0.871125 0.3900125 -0.871125 0.871125v10.4535c0 0.160375 0.13000625 0.290375 0.290375 0.290375h13.00081875c0.12495625 -0.00019375 0.23576875 -0.0803125 0.27513125 -0.19890625l2.0682 -6.2045875c0.08973125 -0.26505 0.0450625 -0.557175 -0.11978125 -0.7832875ZM1.031125 2.77325h3.871425c0.06283125 0 0.1239625 0.020375 0.174225 0.058075l2.168375 1.6261c0.05026875 0.0377 0.11139375 0.058075 0.174225 0.058075h5.22675625c0.16036875 0 0.290375 0.13000625 0.290375 0.290375v1.451875H3.19151875c-0.3749375 0.00018125 -0.7077 0.24025 -0.82611875 0.59599375L0.74075 11.7276875V3.063625c0 -0.160375 0.13 -0.29038125 0.290375 -0.290375Zm14.2124125 4.44709375 -2.0021375 6.00640625H0.85326875l2.06529375 -6.18934375c0.03910625 -0.1178375 0.1488 -0.197775 0.27295625 -0.19890625h11.7776125c0.19784375 0.0003125 0.33745 0.19406875 0.27513125 0.38184375Z" stroke-width="0.0625"/></svg>
+              </div>
+              <h3 data-i18n="card7Title">локальная студия</h3>
+              <p data-i18n="card7Body">Все вычисления происходят прямо на вашем компьютере с GPU или CPU. Ваши исходники никуда не отправляются. Поддержка MP4, MOV, MKV, WAV, MP3.</p>
+              <div class="card-badge" data-i18n="card7Badge">100% On-Device • Офлайн</div>
+            </article>
+          </div>
+        </div>
+
+        <button type="button" class="carousel-nav right" id="carouselNext" aria-label="Следующий инструмент" data-i18n-aria="carouselNext">
+          <svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false"><path d="M5.646 3.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L9.293 8 5.646 4.354a.5.5 0 0 1 0-.708z"/></svg>
+        </button>
+      </div>
+
+      <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Выбор инструмента"></div>
     </section>
   </main>
   <footer>
@@ -142,7 +268,112 @@
     </div>
   </div>
   <script>
-    const siteCopy = {"ru":{"title":"REELSEE — творческое пространство","description":"REELSEE очищает речь, сокращает паузы, делает субтитры и может улучшить картинку. Файл остаётся на компьютере.","brandLabel":"REELSEE — главная","navLabel":"Главная навигация","nav":"инструменты","heroTitle":"меньше рутины.<br>больше творчества.","lead":"Загрузите ролик. Речь, паузы, субтитры и картинка обрабатываются здесь. Разбираться в нейросетях не нужно. Файл остаётся на этом компьютере.","activate":"активировать pro","seeTools":"инструменты","toolsLabel":"инструменты","planetAlt":"Тёмная планета, тёплый свет по краю","appPreviewAlt":"Интерфейс приложения REELSEE","appPreviewSrc":"assets/app-preview.png","card1Title":"полная обработка","card1Body":"Очищает речь от фона, сокращает паузы до 0,15 с и пишет субтитры за один проход.","card2Title":"улучшение звука","card2Body":"Убирает комнатное эхо и возвращает ясность голоса, не меняя тембр.","card3Title":"апскейл картинки","card3Body":"Повышает чёткость и смягчает следы сжатия.","card4Title":"субтитры","card4Body":"Распознаёт речь на нескольких языках и ставит тайминг для коротких роликов и подкастов.","card5Title":"сокращение пауз","card5Body":"Находит тишину и пустые места. Вы выбираете, какую паузу сокращать.","card6Title":"файл остаётся здесь","card6Body":"Обработка идёт на этом компьютере, с видеокартой или без. Ролик никуда не отправляется.","footer":"© 2026 REELSEE","footerTag":"творческое пространство","privacyLink":"политика конфиденциальности","support":"поддержка","close":"закрыть","switchLanguage":"переключить на английский","privacyTitle":"политика конфиденциальности REELSEE","privacy1":"<strong>Дата:</strong> октябрь 2026","privacy2":"<strong>1. Локальная обработка:</strong> REELSEE — настольное приложение. Обработка аудио и видео, транскрипция, улучшение и апскейлинг выполняются на компьютере пользователя. Файлы и результаты не загружаются на удалённые серверы.","privacy3":"<strong>2. Оплата и лицензия:</strong> платежи принимает сторонняя площадка (Tribute). REELSEE не собирает и не хранит данные банковских карт.","privacy4":"<strong>3. Данные:</strong> мы не отслеживаем личные данные, историю просмотров и поведенческие метрики.","privacy5":"<strong>4. Контакт:</strong> по вопросам лицензии и возврата напишите в поддержку."},"en":{"title":"REELSEE — a creator workspace","description":"REELSEE cleans speech, shortens pauses, writes subtitles, and can improve the picture. The file stays on the computer.","brandLabel":"REELSEE — home","navLabel":"Main navigation","nav":"tools","heroTitle":"less routine.<br>more creating.","lead":"Load a video. Speech, pauses, subtitles, and the picture are handled here. You do not need to learn how the models work. The file stays on this computer.","activate":"activate pro","seeTools":"tools","toolsLabel":"tools","planetAlt":"A dark planet with a warm rim of light","appPreviewAlt":"REELSEE application interface","appPreviewSrc":"assets/app-preview-en.png","card1Title":"full processing","card1Body":"Cleans background noise, shortens pauses to 0.15 s, and writes subtitles in one pass.","card2Title":"sound enhancement","card2Body":"Removes room echo and brings the voice back into focus, without changing its tone.","card3Title":"picture upscale","card3Body":"Sharpens the image and softens compression marks.","card4Title":"subtitles","card4Body":"Transcribes several languages and times the lines for short videos and podcasts.","card5Title":"pause cutting","card5Body":"Finds silence and empty stretches. You choose how long a pause must be before it is shortened.","card6Title":"the file stays here","card6Body":"Processing runs on this computer, with or without a graphics card. The video is not uploaded.","footer":"© 2026 REELSEE","footerTag":"creator workspace","privacyLink":"privacy policy","support":"support","close":"close","switchLanguage":"switch to russian","privacyTitle":"privacy policy for REELSEE","privacy1":"<strong>Effective date:</strong> October 2026","privacy2":"<strong>1. Local processing:</strong> REELSEE is a desktop application. Audio and video processing, transcription, enhancement, and upscaling all run on your computer. Files and results are not uploaded to remote servers.","privacy3":"<strong>2. Payment and license:</strong> Payments are handled by a third-party platform (Tribute). REELSEE does not collect or store card details.","privacy4":"<strong>3. Data:</strong> We do not track personal information, browsing history, or behavioral metrics.","privacy5":"<strong>4. Contact:</strong> For license or refund questions, write to support."}};
+    const siteCopy = {
+      "ru": {
+        "title": "REELSEE — творческое пространство",
+        "description": "REELSEE очищает речь, сокращает паузы, делает субтитры и улучшает картинку. Файл остаётся на компьютере.",
+        "brandLabel": "REELSEE — главная",
+        "navLabel": "Главная навигация",
+        "nav": "инструменты",
+        "heroTitle": "меньше рутины.<br>больше творчества.",
+        "lead": "Загрузите ролик. Речь, паузы, субтитры и картинка обрабатываются здесь. Разбираться в нейросетях не нужно. Файл остаётся на этом компьютере.",
+        "activate": "активировать pro",
+        "seeTools": "инструменты",
+        "toolsLabel": "инструменты",
+        "toolsTitle": "инструменты монтажа",
+        "toolsDesc": "Полный цикл подготовки вашего видео: от первого черновика до публикации",
+        "carouselPrev": "Предыдущий инструмент",
+        "carouselNext": "Следующий инструмент",
+        "planetAlt": "Тёмная планета, тёплый свет по краю",
+        "appPreviewAlt": "Интерфейс приложения REELSEE",
+        "appPreviewSrc": "assets/app-preview.png",
+        "card1Title": "полная обработка",
+        "card1Body": "Очищает голос от шума, сокращает паузы до 0,15 с и расставляет субтитры за один проход. Идеально для быстрых шортсов и рилс.",
+        "card1Badge": "1 клик • полный цикл",
+        "card2Title": "чистый голос",
+        "card2Body": "Локальная нейросеть Resemble Enhance убирает комнатное эхо и фоновый гул, возвращая ясность речи без металлического роботизированного звона.",
+        "card2Badge": "Resemble Enhance • Студийный звук",
+        "card3Title": "умные паузы и маркеры",
+        "card3Body": "Silero VAD находит лишнюю тишину и аккуратно сжимает её, оставляя мягкие отступы у слов. В файл сразу вшиваются XMP-маркеры для Premiere Pro и DaVinci.",
+        "card3Badge": "Silero VAD • XMP Markers",
+        "card4Title": "пословные субтитры",
+        "card4Body": "Точное мультиязычное распознавание на базе Whisper large-v3-turbo. Экспорт в форматы .srt и .vtt с миллисекундной привязкой к таймлайну.",
+        "card4Badge": "Whisper v3 • SRT / VTT",
+        "card5Title": "транскрипт текстом",
+        "card5Body": "Экспорт расшифровки в чистый текстовый файл (.txt) без таймкодов и тегов. Готово для постов, сценариев, заметок или отправки в языковые модели.",
+        "card5Badge": "Чистый текст • Без таймкодов",
+        "card6Title": "апскейл и выбор моделей",
+        "card6Body": "Повышение разрешения на Vulkan без мерцания. Выбор модели в настройках: от динамичных разговорных влогов до фотореалистичных портретов.",
+        "card6Badge": "Real-ESRGAN • Vulkan",
+        "card7Title": "локальная студия",
+        "card7Body": "Все вычисления происходят прямо на вашем компьютере с GPU или CPU. Ваши исходники никуда не отправляются. Поддержка MP4, MOV, MKV, WAV, MP3.",
+        "card7Badge": "100% On-Device • Офлайн",
+        "footer": "© 2026 REELSEE",
+        "footerTag": "творческое пространство",
+        "privacyLink": "политика конфиденциальности",
+        "support": "поддержка",
+        "close": "закрыть",
+        "switchLanguage": "переключить на английский",
+        "privacyTitle": "политика конфиденциальности REELSEE",
+        "privacy1": "<strong>Дата:</strong> октябрь 2026",
+        "privacy2": "<strong>1. Локальная обработка:</strong> REELSEE — настольное приложение. Обработка аудио и видео, транскрипция, улучшение и апскейлинг выполняются на компьютере пользователя. Файлы и результаты не загружаются на удалённые серверы.",
+        "privacy3": "<strong>2. Оплата и лицензия:</strong> платежи принимает сторонняя площадка (Tribute). REELSEE не собирает и не хранит данные банковских карт.",
+        "privacy4": "<strong>3. Данные:</strong> мы не отслеживаем личные данные, историю просмотров и поведенческие метрики.",
+        "privacy5": "<strong>4. Контакт:</strong> по вопросам лицензии и возврата напишите в поддержку."
+      },
+      "en": {
+        "title": "REELSEE — a creator workspace",
+        "description": "REELSEE cleans speech, shortens pauses, writes subtitles, and improves the picture. The file stays on the computer.",
+        "brandLabel": "REELSEE — home",
+        "navLabel": "Main navigation",
+        "nav": "tools",
+        "heroTitle": "less routine.<br>more creating.",
+        "lead": "Load a video. Speech, pauses, subtitles, and the picture are handled here. You do not need to learn how the models work. The file stays on this computer.",
+        "activate": "activate pro",
+        "seeTools": "tools",
+        "toolsLabel": "tools",
+        "toolsTitle": "editing tools",
+        "toolsDesc": "The complete video preparation pipeline: from rough cut to final publish",
+        "carouselPrev": "Previous tool",
+        "carouselNext": "Next tool",
+        "planetAlt": "A dark planet with a warm rim of light",
+        "appPreviewAlt": "REELSEE application interface",
+        "appPreviewSrc": "assets/app-preview-en.png",
+        "card1Title": "one-click full pass",
+        "card1Body": "Cleans voice noise, trims pauses to 0.15 s, and generates subtitles in a single run. Built for getting shorts and reels out fast.",
+        "card1Badge": "1-Click • Full Pipeline",
+        "card2Title": "voice enhancement",
+        "card2Body": "Local Resemble Enhance neural model removes room echo and hum, restoring vocal clarity without robotic distortion.",
+        "card2Badge": "Resemble Enhance • Studio Voice",
+        "card3Title": "smart pauses & markers",
+        "card3Body": "Silero VAD detects hesitation and trims silence while keeping natural breath margins. Embeds XMP edit markers directly for Premiere Pro and DaVinci.",
+        "card3Badge": "Silero VAD • XMP Markers",
+        "card4Title": "word-level subtitles",
+        "card4Body": "Precise multilingual transcription powered by Whisper large-v3-turbo. Export to .srt and .vtt with millisecond timeline sync.",
+        "card4Badge": "Whisper v3 • SRT / VTT",
+        "card5Title": "clean text transcript",
+        "card5Body": "Export transcription into a pure .txt file without timestamps or tags. Ready for blog articles, show notes, or feeding into LLMs.",
+        "card5Badge": "Pure Text • No Timestamps",
+        "card6Title": "upscale & model choice",
+        "card6Body": "Vulkan-accelerated video enhancement with zero flicker. Switch models in settings: from fast conversational vlogs to photorealistic portraits.",
+        "card6Badge": "Real-ESRGAN • Vulkan",
+        "card7Title": "on-device studio",
+        "card7Body": "100% of processing happens locally on your computer using GPU or CPU. Your footage never leaves your machine. Full support for MP4, MOV, MKV, WAV, MP3.",
+        "card7Badge": "100% On-Device • Offline",
+        "footer": "© 2026 REELSEE",
+        "footerTag": "creator workspace",
+        "privacyLink": "privacy policy",
+        "support": "support",
+        "close": "close",
+        "switchLanguage": "switch to russian",
+        "privacyTitle": "privacy policy for REELSEE",
+        "privacy1": "<strong>Effective date:</strong> October 2026",
+        "privacy2": "<strong>1. Local processing:</strong> REELSEE is a desktop application. Audio and video processing, transcription, enhancement, and upscaling all run on your computer. Files and results are not uploaded to remote servers.",
+        "privacy3": "<strong>2. Payment and license:</strong> Payments are handled by a third-party platform (Tribute). REELSEE does not collect or store card details.",
+        "privacy4": "<strong>3. Data:</strong> We do not track personal information, browsing history, or behavioral metrics.",
+        "privacy5": "<strong>4. Contact:</strong> For license or refund questions, write to support."
+      }
+    };
     function applySiteLanguage(lang) {
       const copy = siteCopy[lang] || siteCopy.ru;
       document.documentElement.lang = lang;
@@ -189,6 +420,125 @@
       document.getElementById('langToggle').addEventListener('click', function () {
         applySiteLanguage(document.documentElement.lang === 'ru' ? 'en' : 'ru');
       });
+    })();
+  </script>
+
+  <script>
+    /* 3D Carousel logic (inspired by Yoav Kadosh under MIT License) */
+    (function initCarousel() {
+      const carousel = document.getElementById('toolsCarousel');
+      if (!carousel) return;
+      const cards = Array.from(carousel.querySelectorAll('.card-container'));
+      const btnPrev = document.getElementById('carouselPrev');
+      const btnNext = document.getElementById('carouselNext');
+      const dotsContainer = document.getElementById('carouselDots');
+      if (!cards.length) return;
+
+      let active = 0;
+      const total = cards.length;
+      const maxVisibility = 3;
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        cards.forEach(function (_, i) {
+          const dot = document.createElement('button');
+          dot.className = 'carousel-dot' + (i === active ? ' active' : '');
+          dot.setAttribute('type', 'button');
+          dot.setAttribute('aria-label', (i + 1).toString());
+          dot.addEventListener('click', function () { setActive(i); });
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      function update() {
+        cards.forEach(function (card, i) {
+          var diff = active - i;
+          while (diff > total / 2) diff -= total;
+          while (diff < -total / 2) diff += total;
+
+          var offset = diff / 3;
+          var direction = Math.sign(diff);
+          var absOffset = Math.abs(diff) / 3;
+          var dist = Math.abs(diff);
+          var isActive = dist === 0;
+
+          card.style.setProperty('--active', isActive ? '1' : '0');
+          card.style.setProperty('--offset', offset);
+          card.style.setProperty('--direction', direction);
+          card.style.setProperty('--abs-offset', absOffset);
+          card.style.zIndex = (20 - dist).toString();
+          card.style.pointerEvents = isActive ? 'auto' : 'none';
+          card.style.opacity = dist >= maxVisibility ? '0' : '1';
+          card.style.display = dist >= maxVisibility ? 'none' : 'block';
+          card.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        });
+
+        if (dotsContainer) {
+          var dots = dotsContainer.querySelectorAll('.carousel-dot');
+          dots.forEach(function (dot, idx) {
+            dot.classList.toggle('active', idx === active);
+          });
+        }
+
+        if (btnPrev) {
+          btnPrev.style.visibility = 'visible';
+          btnPrev.removeAttribute('aria-disabled');
+        }
+        if (btnNext) {
+          btnNext.style.visibility = 'visible';
+          btnNext.removeAttribute('aria-disabled');
+        }
+      }
+
+      function setActive(index) {
+        active = (index % total + total) % total;
+        update();
+      }
+
+      cards.forEach(function (card, i) {
+        card.addEventListener('click', function () {
+          if (active !== i) setActive(i);
+        });
+      });
+
+      if (btnPrev) btnPrev.addEventListener('click', function () { setActive(active - 1); });
+      if (btnNext) btnNext.addEventListener('click', function () { setActive(active + 1); });
+
+      carousel.setAttribute('tabindex', '0');
+      carousel.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') { setActive(active - 1); e.preventDefault(); }
+        else if (e.key === 'ArrowRight') { setActive(active + 1); e.preventDefault(); }
+      });
+
+      var touchStartX = 0;
+      carousel.addEventListener('touchstart', function (e) {
+        if (e.changedTouches && e.changedTouches[0]) {
+          touchStartX = e.changedTouches[0].screenX;
+        }
+      }, { passive: true });
+      carousel.addEventListener('touchend', function (e) {
+        if (e.changedTouches && e.changedTouches[0]) {
+          var touchEndX = e.changedTouches[0].screenX;
+          if (touchStartX - touchEndX > 40) setActive(active + 1);
+          else if (touchEndX - touchStartX > 40) setActive(active - 1);
+        }
+      }, { passive: true });
+
+      var glow = document.querySelector('.carousel-glow');
+      var wrap = document.querySelector('.carousel-wrap');
+      if (glow && wrap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        wrap.addEventListener('mousemove', function (e) {
+          var rect = wrap.getBoundingClientRect();
+          var relX = (e.clientX - rect.left) / rect.width - 0.5;
+          var relY = (e.clientY - rect.top) / rect.height - 0.5;
+          glow.style.transform = 'translate(calc(-50% + ' + (relX * 50).toFixed(1) + 'px), calc(-50% + ' + (relY * 35).toFixed(1) + 'px))';
+        });
+        wrap.addEventListener('mouseleave', function () {
+          glow.style.transform = 'translate(-50%, -50%)';
+        });
+      }
+
+      update();
     })();
   </script>
 
